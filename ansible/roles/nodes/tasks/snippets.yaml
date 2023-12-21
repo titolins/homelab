@@ -1,0 +1,7 @@
+- name: Ensure snippets directory exists
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/vz/snippets
+    state: directory
+    mode: '0755'
+

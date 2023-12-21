@@ -1,0 +1,16 @@
+#cloud-config
+locale: en_US.UTF-8
+timezone: Europe/Berlin
+packages:
+  - qemu-guest-agent
+write_files:
+  - path: /etc/systemd/systemd/ssh.socket.d/listen.conf
+    content: |
+      [Socket]
+      ListenStream=
+      ListenStream={{ cloud_init.ssh_port }}
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - systemctl daemon-reload
+  - systemctl restart ssh

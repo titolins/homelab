@@ -1,0 +1,9 @@
+- name: Main playbook
+  hosts: pve
+  tasks:
+    - name: Base pve node setup
+      include_role:
+        name: nodes
+    - name: Setup template and vm's
+      include_role:
+        name: vms

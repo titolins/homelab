@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  ansible-ping:
+    cmds:
+      - ansible pve_home -m ping -i ansible/homelab.yaml
+    silent: true
+  ansible-playbook:
+    cmds:
+      - cd ansible && ansible-playbook site.yaml -i homelab.yaml && cd -

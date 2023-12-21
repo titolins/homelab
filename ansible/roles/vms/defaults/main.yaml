@@ -1,0 +1,44 @@
+---
+## Template image settings
+template:
+  name: UbuntuNobleCloudInit
+  vmid: 900
+  os_type: l26
+  storage: local-lvm
+  file:
+    name: "noble-server-cloudimg-amd64.img"
+  download:
+    path: "/tmp"
+    uri: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+
+## PVE setup
+pve:
+  node: pve
+  api:
+    host: pve
+    user: root@pam
+    pass: fake_pass
+
+network:
+  gateway: 192.168.1.1
+  vlan_tag: 1
+  dns_server: 1.1.1.1
+  domain: internal
+
+cloud_init:
+  ssh_port: 22
+  username: root
+  password: toor
+
+vms:
+  - name: k3s-control-01
+    k3s_node_type: control
+    vmid: 101
+    storage: local-lvm
+    ip_addr: 192.168.1.10/24
+    mac_addr: 12:34:56:78:90:ab
+    cpu:
+      cores: 2
+      sockets: 1
+    memory: 2048
+    disk_size: 40

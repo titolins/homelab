@@ -1,0 +1,18 @@
+---
+- name: Check that the cloudinit file exists
+  ansible.builtin.stat:
+    path: "{{ template.download.path }}/{{ template.file.name }}"
+  register: stat_result
+
+- name: Download cloud-init image
+  ansible.builtin.get_url:
+    url: "{{ template.download.uri }}"
+    dest: "{{ template.download.path }}"
+    mode: '0644'
+    force: true
+  when: not stat_result.stat.exists
+
+    #- name: Resize image
+    #  ansible.builtin.shell:
+    #    cmd: qm resize {{ item.vmid }} scsi0 {{ item.disk_size }}G
+    #  when: stat_result.state.size < 30000000000

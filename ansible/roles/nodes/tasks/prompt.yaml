@@ -1,0 +1,24 @@
+- name: Remove the subscription prompt from regular js file
+  become: true
+  ansible.builtin.replace:
+    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+    regexp: 'Ext\.Msg\.show(\(\{\s+title: gettext\(.No valid subscription)'
+    replace: 'void\1'
+    backup: true
+  notify: restart pveproxy
+
+- name: Check the minified js file exists
+  stat:
+    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.min.js
+  register: stat_result
+
+- name: Remove the subscription prompt from minified js file
+  become: true
+  ansible.builtin.replace:
+    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.min.js
+    regexp: 'Ext\.Msg\.show(\(\{title:gettext\("No valid subscription)'
+    replace: 'void\1'
+    backup: true
+  notify: restart pveproxy
+  when: stat_result.stat.exists
+
