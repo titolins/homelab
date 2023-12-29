@@ -1,6 +1,3 @@
 pve_nodes_home:
   hosts:
     pve:
-      ansible_host: pve.lindinhos # 192.168.3.201
-      ansible_port: 2453
-      ansible_user: tl
