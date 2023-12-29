@@ -46,7 +46,18 @@ Things to be added on top of that:
 
 ### Running
 - There's a provided task file just to make it a bit easier to run the playbook from the root dir
-- After installing task, just run `task ansible-playbook` to start running it
+- After installing task, there's a couple of tasks to bootstrap everything
+    - The main playbook contains all steps required (apart from initial manual steps ofc)
+    - But since it takes some time for cloud-init to do it's thing, running it in one go doesn't really work
+    - So running `task ansible-pve` will run the playbook for the pve nodes only
+    - Once cloud-init has finished and we can access the k3s nodes via ssh, we can run `task ansible-k3s`
+
+## k3s
+- k3s was setup using the [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) role
+- Just make sure to install it before running the playbook
+```
+ansible-galaxy role install xanmanning.k3s
+```
 
 ## Manual steps (PVE)
 - Some manual steps are still required for initial setup of the proxmox node
@@ -126,13 +137,19 @@ systemctl restart sshd
 - Now we should be all set to run ansible :)
 
 #### TODO
+- Replace etcd with postgresql
+
 - nvidia drivers
-- cuda?
-- Configure pcie-passthrough
-    - https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/
-    - add modules
-        - `ansible/config/vfio.conf` -> `/etc/modules-load.d/`
-        - update initramfs `sudo update-initramfs -u -k all`
+    - cuda?
+    - Configure pcie-passthrough
+        - https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/
+        - add modules
+            - `ansible/config/vfio.conf` -> `/etc/modules-load.d/`
+            - update initramfs `sudo update-initramfs -u -k all`
+
+- Proper hardening
+    - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
+    - [ansible role](https://github.com/konstruktoid/ansible-role-hardening)
 
 - Use packer for template generation?
 
@@ -155,3 +172,5 @@ systemctl restart sshd
 - [cloud config examples](https://cloudinit.readthedocs.io/en/20.4.1/topics/examples.html)
 - [cloud init network config format v2](https://cloudinit.readthedocs.io/en/latest/reference/network-config-format-v2.html)
 - [cloud init network config format v1](https://cloudinit.readthedocs.io/en/20.4.1/topics/network-config-format-v1.html)
+- [proxmox helpers fork](https://github.com/aitkar/vm-lxc-config-proxmox)
+- [proxmox helpers](https://github.com/tteck/Proxmox)
