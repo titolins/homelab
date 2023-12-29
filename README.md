@@ -78,7 +78,7 @@ iface vmbr0 inet manual
         bridge-fd 0
 
 ## Doing the below actually leads to no connections on VMs - my guess is that this would be required for a trunk interface
-        # b. add vlan related params below
+        # c. add vlan related params below
         bridge-vlan-aware yes
         bridge-vids 2-4094
 ```
@@ -151,3 +151,7 @@ systemctl restart sshd
 - [Proxmox: Use Custom Cloud-Init File](https://github.com/chris2k20/proxmox-cloud-init)
 - [Ubuntu-CloudInit-Docs](https://github.com/UntouchedWagons/Ubuntu-CloudInit-Docs)
 - [Proxmox Network Configuration](https://pve.proxmox.com/wiki/Network_Configuration)
+- [cloud-init unable to run on Debian 11 cloud image](https://forum.proxmox.com/threads/cloud-init-unable-to-run-on-debian-11-cloud-image.126435/page-2)
+- [cloud config examples](https://cloudinit.readthedocs.io/en/20.4.1/topics/examples.html)
+- [cloud init network config format v2](https://cloudinit.readthedocs.io/en/latest/reference/network-config-format-v2.html)
+- [cloud init network config format v1](https://cloudinit.readthedocs.io/en/20.4.1/topics/network-config-format-v1.html)
