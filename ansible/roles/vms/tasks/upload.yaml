@@ -1,0 +1,30 @@
+- name: Upload cloud-init user config file
+  become: true
+  vars:
+    ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+  ansible.builtin.template:
+    src: templates/user-ci.j2
+    dest: /var/lib/vz/snippets/{{ template.vmid }}-user-ci.yaml
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Upload cloud-init network config file
+  become: true
+  ansible.builtin.template:
+    src: templates/network-ci.j2
+    dest: /var/lib/vz/snippets/{{ item.vmid }}-network-ci.yaml
+    owner: root
+    group: root
+    mode: '0640'
+  loop: "{{ vms }}"
+
+- name: Upload cloud-init vendor config file
+  become: true
+  ansible.builtin.template:
+    src: templates/vendor-ci.j2
+    dest: /var/lib/vz/snippets/{{ item.vmid }}-vendor-ci.yaml
+    owner: root
+    group: root
+    mode: '0640'
+  loop: "{{ vms }}"

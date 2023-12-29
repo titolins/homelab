@@ -1,0 +1,20 @@
+#cloud-config
+hostname: {{ item.name }}
+locale: en_US.UTF-8
+timezone: Europe/Berlin
+packages:
+  - qemu-guest-agent
+  - openssh-server
+package_upgrade: true
+package_reboot_if_required: true
+write_files:
+  - path: /etc/ssh/sshd_config.d/99-cloud-init.conf
+    content: |
+      Port {{ cloud_init.ssh_port }}
+      PasswordAuthentication no
+      PermitRootLogin no
+      AllowUsers {{ cloud_init.username }}
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - systemctl restart ssh

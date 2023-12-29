@@ -1,13 +1,4 @@
 ---
-- name: Upload cloud-init config file
-  become: true
-  ansible.builtin.template:
-    src: templates/cloud-init.j2
-    dest: /var/lib/vz/snippets/{{ template.vmid }}-cloud-init.yaml
-    owner: root
-    group: root
-    mode: '0640'
-
 - name: Create template from cloud-init image
   community.general.proxmox_kvm:
     api_host: "{{ pve.api.host }}"
@@ -39,11 +30,9 @@
     scsihw: 'virtio-scsi-single'
     scsi:
       scsi0: "{{ template.storage }}:0,iothread=1,discard=on,import-from={{ template.download.path }}/{{ template.file.name }}"
-    ide:
-      ide2: '{{ template.storage }}:cloudinit'
+      scsi1: '{{ template.storage }}:cloudinit'
     net:
       net0: 'virtio,bridge=vmbr0'
-    cicustom: "vendor=local:snippets/{{ template.vmid }}-cloud-init.yaml"
     template: true
     timeout: 1000
 
@@ -61,8 +50,6 @@
   loop: "{{ vms }}"
 
 - name: Setup network / cloud-init settings
-  vars:
-    ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
   community.general.proxmox_kvm:
     node: "{{ pve.node }}"
     api_user: "{{ pve.api.user }}"
@@ -77,19 +64,14 @@
     cores: "{{ item.cpu.cores }}"
     memory: "{{ item.memory }}"
     sockets: "{{ item.cpu.sockets }}"
-    searchdomains:
-      - "{{ network.dns_server }}"
-    ipconfig:
-      ipconfig0: 'ip={{ item.ip_addr }},gw={{ network.gateway }}'
-    ciuser: "{{ cloud_init.username }}"
-    cipassword: "{{ cloud_init.password | password_hash }}"
-    sshkeys: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
+    cicustom: "network=local:snippets/{{ item.vmid }}-network-ci.yaml,user=local:snippets/{{ template.vmid }}-user-ci.yaml,vendor=local:snippets/{{ item.vmid }}-vendor-ci.yaml"
+    citype: nocloud
   loop: "{{ vms }}"
 
 - name: Configure VM net
   become: true
   ansible.builtin.shell:
-    cmd: qm set {{ item.vmid }} --net0 virtio={{ item.mac_addr }},bridge=vmbr0,tag={{ network.vlan_tag }},firewall=0
+    cmd: qm set {{ item.vmid }} --net0 virtio={{ item.mac_addr }},bridge=vmbr0,tag={{ network.vlan_tag }}
   loop: "{{ vms }}"
 
 - name: Resize VM disk
@@ -98,7 +80,7 @@
     cmd: qm resize {{ item.vmid }} scsi0 {{ item.disk_size }}G
   loop: "{{ vms }}"
 
-- name: Start VMs
+- name: Start VM
   community.general.proxmox_kvm:
     node: "{{ pve.node }}"
     api_user: "{{ pve.api.user }}"

@@ -1,0 +1,12 @@
+#cloud-config
+users:
+  - name: {{ cloud_init.username }}
+    passwd: "{{ cloud_init.password | password_hash('sha512') }}"
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: [users, admin, sudo]
+    home: /home/tl
+    lock_passwd: false
+    ssh-authorized-keys:
+      - "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
+chpasswd: { expire: False }

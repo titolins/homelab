@@ -1,15 +1,15 @@
 ---
 ## Template image settings
 template:
-  name: UbuntuNobleCloudInit
+  name: Debian12CloudInit
   vmid: 900
   os_type: l26
   storage: local-lvm
   file:
-    name: "noble-server-cloudimg-amd64.img"
+    name: "debian-12-genericcloud-amd64.qcow2"
   download:
     path: "/tmp"
-    uri: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+    uri: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
 
 ## PVE setup
 pve:

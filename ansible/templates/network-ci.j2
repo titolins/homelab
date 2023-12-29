@@ -1,0 +1,16 @@
+#cloud-config
+network:
+  version: 2
+  ethernets:
+    # opaque ID for physical interfaces, only referred to by other stanzas
+    id0:
+      match:
+        macaddress: {{ item.mac_addr }}
+      wakeonlan: true
+      dhcp4: true
+      addresses:
+        - {{ item.ip_addr }}
+      gateway4: {{ network.gateway }}
+      nameservers:
+        search: [{{ network.domain }}]
+        addresses: [{{ network.dns_server }}]

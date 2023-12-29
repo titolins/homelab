@@ -1,13 +1,12 @@
 ---
 ## Template image settings
 template:
-  name: UbuntuNobleCloudInit
+  name: Debian12CloudInit
   vmid: 900
   os_type: l26
   storage: local-lvm
   file:
-    name: "noble-server-cloudimg-amd64.img"
-    sum: "7b7f4d34bba4a6a819dbd67ae338b46141646de7b18ae3818a7aa178d383bfbb3e9e0197c545bb2d5fd5be7f8e55a7d449b285983ae86a09a294124bb97d3d5f"
+    name: "debian-12-genericcloud-amd64.qcow2"
   download:
     path: "/tmp"
-    uri: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+    uri: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
