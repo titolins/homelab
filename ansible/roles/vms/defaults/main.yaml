@@ -32,7 +32,6 @@ cloud_init:
 
 vms:
   - name: k3s-control-01
-    k3s_node_type: control
     vmid: 101
     storage: local-lvm
     ip_addr: 192.168.1.10/24

@@ -49,7 +49,9 @@
     newid: "{{ item.vmid }}"
   loop: "{{ vms }}"
 
-- name: Setup network / cloud-init settings
+- name: Update VM params
+  vars:
+    split_name: "{{ item.name | split('-') }}"
   community.general.proxmox_kvm:
     node: "{{ pve.node }}"
     api_user: "{{ pve.api.user }}"
@@ -59,7 +61,7 @@
     tags:
       - ansible
       - k3s
-      - control
+      - "{{ split_name[1] }}"
     update: true
     cores: "{{ item.cpu.cores }}"
     memory: "{{ item.memory }}"
@@ -68,7 +70,7 @@
     citype: nocloud
   loop: "{{ vms }}"
 
-- name: Configure VM net
+- name: Setup VM net
   become: true
   ansible.builtin.shell:
     cmd: qm set {{ item.vmid }} --net0 virtio={{ item.mac_addr }},bridge=vmbr0,tag={{ network.vlan_tag }}
