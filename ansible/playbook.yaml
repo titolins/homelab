@@ -1,9 +1,0 @@
-- name: Main playbook
-  hosts: pve
-  tasks:
-    - name: Ensure pip and required libs are installer
-      include_role:
-        name: pve
-    - name: Build template
-      include_role:
-        name: template
