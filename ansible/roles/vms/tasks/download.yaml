@@ -11,8 +11,3 @@
     mode: '0644'
     force: true
   when: not stat_result.stat.exists
-
-    #- name: Resize image
-    #  ansible.builtin.shell:
-    #    cmd: qm resize {{ item.vmid }} scsi0 {{ item.disk_size }}G
-    #  when: stat_result.state.size < 30000000000

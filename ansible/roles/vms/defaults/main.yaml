@@ -40,4 +40,4 @@ vms:
       cores: 2
       sockets: 1
     memory: 2048
-    disk_size: 40
+    disk_size: 40G
