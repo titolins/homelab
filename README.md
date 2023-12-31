@@ -44,6 +44,10 @@ Things to be added on top of that:
     - Set `SOPS_AGE_KEY_FILE` to point to the path where you've saved the key (in the keygen command above)
     - Set `SOPS_AGE_RECIPIENT` to the public key value of the key generated above
 
+### Requirements
+- Before running, you should make sure all required ansible collections / roles are installed
+- To do that, just run `task ansible-requirements`
+
 ### Running
 - There's a provided task file just to make it a bit easier to run the playbook from the root dir
 - After installing task, there's a couple of tasks to bootstrap everything
@@ -54,10 +58,7 @@ Things to be added on top of that:
 
 ## k3s
 - k3s was setup using the [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) role
-- Just make sure to install it before running the playbook
-```
-ansible-galaxy role install xanmanning.k3s
-```
+- Run `task ansible-k3s` for configuring the k3s cluster
 
 ## Manual steps (PVE)
 - Some manual steps are still required for initial setup of the proxmox node

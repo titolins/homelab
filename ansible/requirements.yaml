@@ -1,0 +1,9 @@
+collections:
+  - name: community.general
+    source: https://galaxy.ansible.com
+  - name: cielito.proxmox
+    source: https://galaxy.ansible.com
+
+roles:
+  - name: xanmanning.k3s
+    source: https://galaxy.ansible.com
