@@ -11,3 +11,8 @@
     mode: '0644'
     force: true
   when: not stat_result.stat.exists
+
+- name: Ensure lxc template is present
+  become: true
+  ansible.builtin.shell:
+    cmd: pveam download {{ lxc_template.storage }} {{ lxc_template.image }}

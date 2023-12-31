@@ -27,7 +27,7 @@ vms:
         cores: ENC[AES256_GCM,data:JA==,iv:8wdZvhX9UDED2av2K3vFRryS5I9PJ+SeJom6zEAYHr8=,tag:5FUDl9ufNFGqoGKuUqZrAA==,type:int]
         sockets: ENC[AES256_GCM,data:iQ==,iv:21ed0ymBBOscpHEM9c9adPGx3WW8/qgOdEk9VWw/bc0=,tag:LUszXTuD48QWNlwijd0bRw==,type:int]
       memory: ENC[AES256_GCM,data:sXb9Lw==,iv:DoYZaWX7jJsztTEWdXEEn4JV9g0GX/ABj6nhoyoT6fo=,tag:5JQuf+cppmZB2LpzDTapWQ==,type:int]
-      disk_size: ENC[AES256_GCM,data:KE/o,iv:yfYSsANfEaR/meV+KK/voE70tsWX86eQsHqua9W10Y8=,tag:Y5GWO7NLX3XNEvMuQGYy6w==,type:str]
+      disk_size: ENC[AES256_GCM,data:cmEo,iv:iQwQ9ZNWlMoSQUJFRbCAAz+VbxH0JFqaVDj7/GsJckU=,tag:2uArcpDzbezhdouGDezdKg==,type:str]
     - name: ENC[AES256_GCM,data:B7B+mHZuPbulqycBBg==,iv:0nhUJDkTfxpLQEHI6ClSlXi3qaSKkPhyIX+UgdBv1vg=,tag:ijArmHeKv02PmJQHyFVvEw==,type:str]
       vmid: ENC[AES256_GCM,data:HruT,iv:Iyox0z5WHVQqkLEYphNxVN9aubLG5ubYTdxvsvjPE78=,tag:mgSD5URA7WoeohlGbBWntw==,type:int]
       storage: ENC[AES256_GCM,data:oL1doPB6Fu1B,iv:YhecZ9i3W/H7eWDRs1bEHQa8m/UZ3JzqHudrdPNFRyU=,tag:G9F1XBij50aCpqH0aBNKAg==,type:str]
@@ -37,7 +37,7 @@ vms:
         cores: ENC[AES256_GCM,data:JA==,iv:8wdZvhX9UDED2av2K3vFRryS5I9PJ+SeJom6zEAYHr8=,tag:5FUDl9ufNFGqoGKuUqZrAA==,type:int]
         sockets: ENC[AES256_GCM,data:iQ==,iv:21ed0ymBBOscpHEM9c9adPGx3WW8/qgOdEk9VWw/bc0=,tag:LUszXTuD48QWNlwijd0bRw==,type:int]
       memory: ENC[AES256_GCM,data:sXb9Lw==,iv:DoYZaWX7jJsztTEWdXEEn4JV9g0GX/ABj6nhoyoT6fo=,tag:5JQuf+cppmZB2LpzDTapWQ==,type:int]
-      disk_size: ENC[AES256_GCM,data:Pu2o,iv:s2QKEOXPmBOE0EKJ/pzJEC49+guZT7WOOvv+C0f++D0=,tag:3zDsFyFKjyDhEr/+JlgmDw==,type:str]
+      disk_size: ENC[AES256_GCM,data:cmEo,iv:iQwQ9ZNWlMoSQUJFRbCAAz+VbxH0JFqaVDj7/GsJckU=,tag:2uArcpDzbezhdouGDezdKg==,type:str]
     - name: ENC[AES256_GCM,data:i6sHfKE+ZIHf6LBnLA==,iv:wOB852LTzohhVcF3dHglWIHckpKS1UR4154RYcMKso0=,tag:ae25Rv8i5JFINHji9NsiFg==,type:str]
       vmid: ENC[AES256_GCM,data:yEDk,iv:JOB/oFSgm9g7uaTBtXdStOu7F/TK3Kss4zlezuPjCnI=,tag:+0AENPQOm3LiDyx9qc8qiQ==,type:int]
       storage: ENC[AES256_GCM,data:oL1doPB6Fu1B,iv:YhecZ9i3W/H7eWDRs1bEHQa8m/UZ3JzqHudrdPNFRyU=,tag:G9F1XBij50aCpqH0aBNKAg==,type:str]
@@ -48,6 +48,23 @@ vms:
         sockets: ENC[AES256_GCM,data:iQ==,iv:21ed0ymBBOscpHEM9c9adPGx3WW8/qgOdEk9VWw/bc0=,tag:LUszXTuD48QWNlwijd0bRw==,type:int]
       memory: ENC[AES256_GCM,data:sXb9Lw==,iv:DoYZaWX7jJsztTEWdXEEn4JV9g0GX/ABj6nhoyoT6fo=,tag:5JQuf+cppmZB2LpzDTapWQ==,type:int]
       disk_size: ENC[AES256_GCM,data:cmEo,iv:iQwQ9ZNWlMoSQUJFRbCAAz+VbxH0JFqaVDj7/GsJckU=,tag:2uArcpDzbezhdouGDezdKg==,type:str]
+containers:
+    - name: ENC[AES256_GCM,data:QZ1j9wUiSYBg5A==,iv:NvqJgik9Jv7WIVH0fekr3Wqb2QdFvwFhhdlFYImVguE=,tag:zcOtHLrd6wEaCy0T2gKbjA==,type:str]
+      vmid: ENC[AES256_GCM,data:fUEP,iv:h1mLPbtZQK+/DOHDGCHizlQgcFwmMLUCYm0ycxQWT0g=,tag:keW7PsoCoR9kHDSlca6xHw==,type:int]
+      storage: ENC[AES256_GCM,data:K0t/r33He1xo,iv:FYDjMe7ZLrGOW1eItTDs8seFdHPh+iZUr3mlKfj/kJM=,tag:sOif8wxWVllV8q+M2CIgCQ==,type:str]
+      disk_size: ENC[AES256_GCM,data:xw==,iv:jx6W3J9ah78W12Hnwb5GKxVR1VQ+D1SXmnjbJ/mv1g0=,tag:NQq5v3FVLclhAfJYbo9d+A==,type:int]
+      ip_addr: ENC[AES256_GCM,data:EgaW4BNlK9bjaBJrMyjG0g==,iv:JCYmP9TDYMqz+lMxAkUG+UAovkc5DNxE2TyIhQZJ6qQ=,tag:AeL46EJfdRoE8dY4rjU1sA==,type:str]
+      mac_addr: ENC[AES256_GCM,data:ZenWqHOWoddyKNElj7EwzcA=,iv:4BrVZSNCMgOhuGrtw0xRTMDZ8hSvv2q37/+GeOLpm3o=,tag:xalCVlE/a24qEDCdRYNWkA==,type:str]
+      cores: ENC[AES256_GCM,data:xA==,iv:tY9TmRhvc6e+dVew9Xe2J2r1udAp2ruLosLdjJZP9Bw=,tag:b+r8xmriXdckshkpStwh2g==,type:int]
+      memory: ENC[AES256_GCM,data:OG6Lig==,iv:yx/N3uHc0oux3hjkUuYI3lO8XUulF7qUBvTgHalMu/A=,tag:dJTRTjkpC2y42nbpdhq5HQ==,type:int]
+      mounts:
+        - id: ENC[AES256_GCM,data:oYid,iv:76Jxwd0Q7RfLmLhs62tAx+GBQE1EgKuU3MGJnAqVjH4=,tag:a8oLnabRj6n13QQGrfRz5w==,type:str]
+          storage: ENC[AES256_GCM,data:gl8g6TuxFip8,iv:gP7bQvwDqYly5WAls02N1BbZgeMU74BR3WmA3jbdiqg=,tag:9GS6wd46vWcvwv9wPKIoFg==,type:str]
+          size: ENC[AES256_GCM,data:ZsQ=,iv:yOPA5x0ph2zVcWbukNpBroGo0hGPLQbWPpLNSdz+7iM=,tag:NMDm7jDMufDaQOy0zrFR0A==,type:int]
+          mount_point: ENC[AES256_GCM,data:7+wNfn+JWqTgJEKeN5LBn/8yrIPS2z3L,iv:y0GdgIZ4WesgjztVer4xH/RSOfREXxRCEp5opikmmvk=,tag:WzSBv0FEAm+Au79NjAUegg==,type:str]
+          read_only: ENC[AES256_GCM,data:NDf+xJM=,iv:vo9RMdYKdCcyRp65CTpZGiFHwWZFoS216fJmBZ4RzII=,tag:8JI2phEIpRCiuRNu96xVsQ==,type:bool]
+          backup: ENC[AES256_GCM,data:xlYUNR0=,iv:wuq5dWq+3E03DhUNF1ASxtCMOAM/T+XGU864VkfoVXE=,tag:f9QWr+cjudnJ3oy7cQ+vjQ==,type:bool]
+          replicate: ENC[AES256_GCM,data:nmKHUHg=,iv:oIDA2/iPhISI7snq5C9eVA3y5DEQAh+aBMSY5b3if+8=,tag:amw6r3THwSFurQOcBz2UJg==,type:bool]
 sops:
     kms: []
     gcp_kms: []
@@ -63,8 +80,8 @@ sops:
             VU4yb1ozNHk1eHh2ZForeHo3R2RPdGsKiVuOp/e3hy6zrzjqPGc6XjqbqbRmFn49
             Qzcp1t/L/7dU4laDPaiW7YQTSFMv53e566xJTL/ED+p3mk0gQTtYfA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2023-12-29T13:41:01Z"
-    mac: ENC[AES256_GCM,data:lKYPs9LbcFPJXhAopZuflgN05q4fsmoRpuxE+3RsXSSOW/EgpSup2lIF3qRpxDEFlYb+IFmiDs0cYTsF2uWObC/CSWdS/Ev/XfTQM/ZJ8/kguuLm3TqR7nWpXF5XfuRa7lHVLciuoxAQK9AjqEbSfaC8wUi5n5ZhC5QZO/QEG+0=,iv:mo+q/8dcTbGeZzW+yIGbUBHT+stV0cbJKYh+5Q0hIMk=,tag:FVU8kGy+jdNnmVhmVDRqoA==,type:str]
+    lastmodified: "2023-12-31T13:22:45Z"
+    mac: ENC[AES256_GCM,data:dqG5uiUcrJuDFOAGpc6tGz3kGaztcwYIliRxe0iF99RqAjO76FLaD80Hm/a7bJ1CG2dSNYWLLrHRk0Rgsf3MwO91+b3o8Mw4lxm8WcrzI3+4l+mMAzEpzQa+SjgGtrOe6E7Y11PNNtu948th5hn5t7aeJhHMzEUhOEnWmHI3hZc=,iv:5CIgi48u9iNzhNKugbn83tp9rTEOqcR9fpgdW//Eggc=,tag:5J4JCrbcXpYdBartant9IA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

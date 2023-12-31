@@ -1,0 +1,3 @@
+---
+- include_tasks: template.yaml
+- include_tasks: containers.yaml

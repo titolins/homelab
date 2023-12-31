@@ -1,7 +1,7 @@
 ---
 - name: Ensure packages are updated
   become: true
-  apt:
+  ansible.builtin.apt:
     upgrade: yes
     update_cache: yes
   ignore_errors: true

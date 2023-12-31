@@ -1,4 +1,4 @@
-- name: Main playbook
+- name: Setup pve host
   hosts: pve
   tasks:
     - name: Base pve node setup
@@ -7,6 +7,9 @@
     - name: Setup template and vm's
       include_role:
         name: vms
+    - name: Setup lxc template and containers
+      include_role:
+        name: containers
 
 - name: Setup k3s
   become: true

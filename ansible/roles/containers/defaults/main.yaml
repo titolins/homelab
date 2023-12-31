@@ -1,0 +1,24 @@
+---
+## Template image settings
+lxc_template:
+  storage: local
+  image: "debian-12-standard_12.2-1_amd64.tar.zst"
+  os_type: debian
+
+containers:
+  - name: CT100
+    vmid: 100
+    storage: local-lvm
+    disk_size: 16
+    ip_addr: 192.168.1.10/24
+    mac_addr: aa:bb:cc:dd:ee:ff
+    cores: 1
+    memory: 1024
+    mounts:
+      - id: mp0
+        storage: local-lvm
+        size: 32
+        mount_point: /mnt/mp0
+        read_only: false
+        backup: false
+        replicate: false

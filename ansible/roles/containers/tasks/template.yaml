@@ -1,0 +1,169 @@
+---
+- name: Create template container
+  vars:
+    ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+  community.general.proxmox:
+    api_host: "{{ pve.api.host }}"
+    api_user: "{{ pve.api.user }}"
+    api_password: "{{ pve.api.password }}"
+    node: "{{ pve.node }}"
+    tags:
+      - ansible
+      - lxc
+      - template
+    vmid: "{{ lxc_template.vmid }}"
+    hostname: lxc-template
+    ostemplate: "{{ lxc_template.storage }}:vztmpl/{{ lxc_template.image }}"
+    ostype: "{{ lxc_template.os_type }}"
+    onboot: true
+    cores: 1
+    memory: 2048
+    disk: "{{ lxc_template.disk.storage }}:{{ lxc_template.disk.size }}"
+    netif: '{"net0":"name=eth0,type=veth,bridge=vmbr0,tag={{ network.vlan_tag }},ip=dhcp"}'
+    searchdomain: "{{ network.domain }}"
+    nameserver: "{{ network.dns_server }}"
+    pubkey: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
+    timezone: Europe/Berlin
+    password: "{{ cloud_init.password | password_hash('sha512') }}"
+  register: create_ct_res
+
+- name: Start containers
+  community.general.proxmox:
+    api_host: "{{ pve.api.host }}"
+    api_user: "{{ pve.api.user }}"
+    api_password: "{{ pve.api.password }}"
+    node: "{{ pve.node }}"
+    vmid: "{{ lxc_template.vmid }}"
+    state: started
+  when: create_ct_res.changed
+
+- name: Wait for container
+  become: false
+  delegate_to: localhost
+  wait_for:
+    host: lxc-template
+    port: 22
+    delay: 5
+  when: create_ct_res.changed
+
+## this and update pam-auth are required for fixing the slow ssh issues with debian
+- name: Mask systemd-logind
+  delegate_to: lxc-template
+  ansible.builtin.systemd_service:
+    name: systemd-logind
+    masked: true
+  when: create_ct_res.changed
+
+- name: Update pam-auth
+  delegate_to: lxc-template
+  ansible.builtin.shell:
+    cmd: pam-auth-update --remove systemd
+  when: create_ct_res.changed
+
+- name: Setup user
+  delegate_to: lxc-template
+  ansible.builtin.user:
+    name: "{{ cloud_init.username }}"
+    password: "{{ cloud_init.password | password_hash('sha512') }}"
+    shell: /bin/bash
+    append: true
+    create_home: true
+    expires: -1
+    groups:
+      - root
+      - sudo
+    home: "/home/{{ cloud_init.username }}"
+  when: create_ct_res.changed
+
+- name: Ensure packages are updated
+  delegate_to: lxc-template
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+  when: create_ct_res.changed
+
+- name: Ensure required packages are installed
+  delegate_to: lxc-template
+  ansible.builtin.apt:
+    name: [sudo]
+    state: present
+    update_cache: true
+    install_recommends: false
+  when: create_ct_res.changed
+
+- name: Add user to sudoers
+  delegate_to: lxc-template
+  community.general.sudoers:
+    commands: ALL
+    name: "{{ cloud_init.username }}"
+    user: "{{ cloud_init.username }}"
+    nopassword: true
+  when: create_ct_res.changed
+
+- name: Add authorized key
+  delegate_to: lxc-template
+  vars:
+    ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+  ansible.posix.authorized_key:
+    user: "{{ cloud_init.username }}"
+    key: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
+  when: create_ct_res.changed
+
+- name: Add sshd config
+  delegate_to: lxc-template
+  ansible.builtin.template:
+    src: templates/sshd_config.j2
+    dest: /etc/ssh/sshd_config.d/00-ansible.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: create_ct_res.changed
+
+- name: Mask ssh.socket
+  delegate_to: lxc-template
+  ansible.builtin.systemd_service:
+    name: ssh.socket
+    masked: true
+  when: create_ct_res.changed
+
+- name: Mask sshd.socket
+  delegate_to: lxc-template
+  ansible.builtin.systemd_service:
+    name: sshd.socket
+    masked: true
+  when: create_ct_res.changed
+
+- name: Disable sshd
+  delegate_to: lxc-template
+  ansible.builtin.systemd_service:
+    name: sshd
+    enabled: false
+  when: create_ct_res.changed
+
+- name: Ensure ssh is enabled
+  delegate_to: lxc-template
+  ansible.builtin.service:
+    name: ssh
+    enabled: true
+  when: create_ct_res.changed
+
+- name: Stop container
+  community.general.proxmox:
+    api_host: "{{ pve.api.host }}"
+    api_user: "{{ pve.api.user }}"
+    api_password: "{{ pve.api.password }}"
+    node: "{{ pve.node }}"
+    vmid: "{{ lxc_template.vmid }}"
+    state: stopped
+  when: create_ct_res.changed
+
+- name: Convert to template
+  community.general.proxmox:
+    api_host: "{{ pve.api.host }}"
+    api_user: "{{ pve.api.user }}"
+    api_password: "{{ pve.api.password }}"
+    node: "{{ pve.node }}"
+    vmid: "{{ lxc_template.vmid }}"
+    state: template
+  when: create_ct_res.changed
+

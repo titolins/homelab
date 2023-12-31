@@ -1,4 +1,5 @@
 ---
+- include_tasks: download.yaml
 - include_tasks: prompt.yaml
 - include_tasks: snippets.yaml
 - include_tasks: apt.yaml

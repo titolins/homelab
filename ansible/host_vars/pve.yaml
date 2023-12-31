@@ -10,3 +10,12 @@ template:
   download:
     path: "/tmp"
     uri: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
+
+lxc_template:
+  storage: local
+  image: "debian-12-standard_12.2-1_amd64.tar.zst"
+  os_type: debian
+  vmid: 910
+  disk:
+    storage: local-lvm
+    size: 8
