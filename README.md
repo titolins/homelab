@@ -53,8 +53,9 @@ Things to be added on top of that:
 - After installing task, there's a couple of tasks to bootstrap everything
     - The main playbook contains all steps required (apart from initial manual steps ofc)
     - But since it takes some time for cloud-init to do it's thing, running it in one go doesn't really work
-    - So running `task ansible-pve` will run the playbook for the pve nodes only
-    - Once cloud-init has finished and we can access the k3s nodes via ssh, we can run `task ansible-k3s`
+    - So running `task ansible-pve` will run the playbook for the pve node only
+    - This will create a vm and a container templates and provision the containers/vms defined in the host config
+    - One it's finished and we can access the containers/vms via ssh, we can configure them
 
 ## k3s
 - k3s was setup using the [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) role
@@ -153,6 +154,7 @@ systemctl restart sshd
     - [ansible role](https://github.com/konstruktoid/ansible-role-hardening)
 
 - Use packer for template generation?
+- Use terraform for actual VMs/CTs?
 
 ## Helpful articles
 - [Considerations for a k3s node on proxmox](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)
@@ -175,3 +177,4 @@ systemctl restart sshd
 - [cloud init network config format v1](https://cloudinit.readthedocs.io/en/20.4.1/topics/network-config-format-v1.html)
 - [proxmox helpers fork](https://github.com/aitkar/vm-lxc-config-proxmox)
 - [proxmox helpers](https://github.com/tteck/Proxmox)
+- [Fix debian slow ssh login on lxc proxmox](https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916)
