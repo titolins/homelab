@@ -19,6 +19,7 @@
     disk: "{{ item.storage }}:{{ item.disk_size }}"
     netif: '{"net0":"name=eth0,type=veth,bridge=vmbr0,tag={{ network.vlan_tag }},gw={{ network.gateway }},ip={{ item.ip_addr }},hwaddr={{ item.mac_addr }}"}'
   loop: "{{ containers }}"
+  register: create_ct_res
 
 - name: Configure mounts
   become: true
@@ -29,6 +30,7 @@
   with_subelements:
     - "{{ containers }}"
     - mounts
+  when: create_ct_res.changed
 
 - name: Start containers
   community.general.proxmox:
