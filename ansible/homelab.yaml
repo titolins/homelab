@@ -6,7 +6,7 @@ pve_containers:
   hosts:
     postgresql:
 
-k3s_cluster:
+k3s_nodes:
   children:
     control:
       hosts:
