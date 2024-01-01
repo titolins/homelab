@@ -2,6 +2,10 @@ pve_nodes_home:
   hosts:
     pve:
 
+pve_containers:
+  hosts:
+    postgresql:
+
 k3s_cluster:
   children:
     control:

@@ -3,6 +3,8 @@ collections:
     source: https://galaxy.ansible.com
   - name: ansible.posix
     source: https://galaxy.ansible.com
+  - name: community.postgresql
+    source: https://galaxy.ansible.com
 
 roles:
   - name: xanmanning.k3s

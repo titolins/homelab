@@ -11,6 +11,13 @@
       include_role:
         name: containers
 
+- name: Setup postgresql
+  hosts: postgresql
+  tasks:
+    - name: Install postgres
+      include_role:
+        name: postgresql
+
 - name: Setup k3s
   become: true
   hosts: k3s_cluster

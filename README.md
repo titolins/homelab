@@ -155,8 +155,6 @@ systemctl restart sshd
 - Now we should be all set to run ansible :)
 
 #### TODO
-- Replace etcd with postgresql
-
 - nvidia drivers
     - cuda?
     - Configure pcie-passthrough
@@ -168,6 +166,7 @@ systemctl restart sshd
 - Proper hardening
     - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
     - [ansible role](https://github.com/konstruktoid/ansible-role-hardening)
+    - postgres
 
 - Use packer for template generation?
 - Use terraform for actual VMs/CTs?

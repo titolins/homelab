@@ -14,6 +14,9 @@ tasks:
   ansible-pve:
     cmds:
       - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l pve
+  ansible-pg:
+    cmds:
+      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l postgresql
   ansible-k3s:
     cmds:
       - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l k3s_cluster
