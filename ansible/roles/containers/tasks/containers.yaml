@@ -21,6 +21,7 @@
   loop: "{{ containers }}"
   register: create_ct_res
 
+# Did this as a hack because neither of adding the mounts on clone or trying to update using the proxmox role were working and I just wanted to get this done
 - name: Configure mounts
   become: true
   vars:
