@@ -95,6 +95,14 @@
   loop: "{{ vm_config.results }}"
   when: "item.item.disk_size not in item.stdout"
 
+- name: Configure passthrough disks
+  become: true
+  ansible.builtin.shell:
+    cmd: qm set {{ item.0.vmid }} -{{ item.1.id }} /dev/disk/by-id/{{ item.1.disk_id }}
+  with_subelements:
+    - "{{ vms }}"
+    - passthrough_disks
+
 - name: Start VM
   community.general.proxmox_kvm:
     node: "{{ pve.node }}"
