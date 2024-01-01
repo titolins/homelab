@@ -196,3 +196,4 @@ systemctl restart sshd
 - [proxmox helpers](https://github.com/tteck/Proxmox)
 - [Fix debian slow ssh login on lxc proxmox](https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916)
 - [Using ansible to provision LXC containers](https://rymnd.net/blog/2020/ansible-pve-lxc/)
+- [SSH doesn't work as expected in lxc](https://forum.proxmox.com/threads/ssh-doesnt-work-as-expected-in-lxc.54691/page-2)
