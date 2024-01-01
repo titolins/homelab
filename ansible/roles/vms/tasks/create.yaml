@@ -44,6 +44,7 @@
     api_host: "{{ pve.api.host }}"
     clone: "{{ template.name }}"
     full: true
+    onboot: true
     vmid: "{{ template.vmid }}"
     name: "{{ item.name }}"
     newid: "{{ item.vmid }}"
