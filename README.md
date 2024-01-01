@@ -29,6 +29,11 @@ Things to be added on top of that:
 - Running ansible will create a template based on the chosen cloud-init image and create the VM's
   provisioned in the pve host
 
+- Please note that I'm not a devops/sysadmin and my focus is actually learning kubernetes, not ansible
+    - Ansible is here just to help me automate the configuration
+    - So yeah, the ansible code is a bit of a mess
+    - I'll try to improve it at some point
+
 ### Configuration
 - Some part of the configuration is encrypted using sops
 - The entire structure can be found at `ansible/roles/vms/defaults/main.yaml`
@@ -56,6 +61,17 @@ Things to be added on top of that:
     - So running `task ansible-pve` will run the playbook for the pve node only
     - This will create a vm and a container templates and provision the containers/vms defined in the host config
     - One it's finished and we can access the containers/vms via ssh, we can configure them
+
+Note: For the vm template to be created successfuly, there's a wait for connection instruction. But since it's a new host,
+ssh will prompt for host key check. To make it work, add a respective section for the host on `~/.ssh/config`:
+```sshconfig
+Host lxc-template
+  Hostname lxc-template.{{ domain }}
+  User root
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  StrictHostKeyChecking accept-new # <- that tells ssh to accept new keys if none exists (so if re-provisioning the template, you should delete the old key from `~/.ssh/known_hosts`
+```
 
 ## k3s
 - k3s was setup using the [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) role
@@ -155,6 +171,7 @@ systemctl restart sshd
 
 - Use packer for template generation?
 - Use terraform for actual VMs/CTs?
+- Improve ansible code
 
 ## Helpful articles
 - [Considerations for a k3s node on proxmox](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)
@@ -178,3 +195,4 @@ systemctl restart sshd
 - [proxmox helpers fork](https://github.com/aitkar/vm-lxc-config-proxmox)
 - [proxmox helpers](https://github.com/tteck/Proxmox)
 - [Fix debian slow ssh login on lxc proxmox](https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916)
+- [Using ansible to provision LXC containers](https://rymnd.net/blog/2020/ansible-pve-lxc/)
