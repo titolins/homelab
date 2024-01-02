@@ -1,22 +1,13 @@
+---
 version: '3'
 
+vars:
+  ANSIBLE_DIR: "{{.ROOT_DIR}}/infra/ansible"
+
+includes:
+  an: .taskfiles/Ansible/Tasks.yaml
+
 tasks:
-  ansible-ping:
-    cmds:
-      - ansible pve_home -m ping -i ansible/homelab.yaml
+  default:
     silent: true
-  ansible-requirements:
-    cmds:
-      - cd ansible && ansible-galaxy install -r requirements.yaml
-  ansible-playbook:
-    cmds:
-      - cd ansible && ansible-playbook site.yaml -i homelab.yaml
-  ansible-pve:
-    cmds:
-      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l pve
-  ansible-pg:
-    cmds:
-      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l postgresql
-  ansible-k3s:
-    cmds:
-      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l k3s_nodes
+    cmds: ["task -l"]

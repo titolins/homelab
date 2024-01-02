@@ -1,0 +1,35 @@
+---
+version: '3'
+
+tasks:
+  ping:
+    cmds:
+      - ansible pve_home -m ping -i ansible/homelab.yaml
+    silent: true
+
+  deps:
+    desc: Install/Upgrade Ansible deps
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - ansible-galaxy install -r requirements.yaml --roles-path ~/.ansible/roles --force
+      - ansible-galaxy collection install -r requirements.yaml --collections-path ~/.ansible/collections --force
+    preconditions:
+      - test -f "{{.ANSIBLE_DIR}}/requirements.yaml"
+
+  pve:
+    desc: Provision pve node
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l pve
+
+  pg:
+    desc: Provision postgres container
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l postgresql
+
+  k3s:
+    desc: Provision k3s nodes
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - cd ansible && ansible-playbook site.yaml -i homelab.yaml -l k3s_nodes

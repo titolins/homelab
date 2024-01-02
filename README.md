@@ -6,6 +6,11 @@ The idea is to use something to automate the provisioning of my vm's. I had alre
 
 Also, the idea this time around is to provision vm's and setup a k3s cluster instead of individual vms/lxc per app.
 
+## Structure
+I didn't want to use any templates since most of them aim to provide a lot of features and it can be hard doing actually following what's going on.
+That being said, now that the basic setup of the nodes is done, I've started looking back at some templates that I had seen before for some inspiration.
+[Truxnell's awesome home-cluster](https://github.com/truxnell/home-cluster/) is the main source for this at this point.
+
 ## Apps
 My proxmox setup includes my media box applications plus some other utilities:
 - Sonarr
