@@ -154,15 +154,14 @@ systemctl restart sshd
 
 - Now we should be all set to run ansible :)
 
-#### TODO
-- nvidia drivers
-    - cuda?
-    - Configure pcie-passthrough
-        - https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/
-        - add modules
-            - `ansible/config/vfio.conf` -> `/etc/modules-load.d/`
-            - update initramfs `sudo update-initramfs -u -k all`
+## Nvidia drivers and secure boot
+- Secure boot was disabled on the vms template by setting the `efidisk.pre_enrolled_keys` param to 0
+- The reason for that is that installing the nvidia drivers with secure is not possible to be fully automated
+    - We need to generate a MOK key to sign the modules
+    - Enrolling a key on mok, however, requires rebooting and manually inserting the key password during a boot prompt
+    - We've added some relevant docs on that in the helpful articles section below
 
+## TODO
 - Proper hardening
     - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
     - [ansible role](https://github.com/konstruktoid/ansible-role-hardening)
@@ -171,6 +170,8 @@ systemctl restart sshd
 - Use packer for template generation?
 - Use terraform for actual VMs/CTs?
 - Improve ansible code
+- Enable secureboot?
+    - See section above
 
 ## Helpful articles
 - [Considerations for a k3s node on proxmox](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)
@@ -196,3 +197,6 @@ systemctl restart sshd
 - [Fix debian slow ssh login on lxc proxmox](https://gist.github.com/charlyie/76ff7d288165c7d42e5ef7d304245916)
 - [Using ansible to provision LXC containers](https://rymnd.net/blog/2020/ansible-pve-lxc/)
 - [SSH doesn't work as expected in lxc](https://forum.proxmox.com/threads/ssh-doesnt-work-as-expected-in-lxc.54691/page-2)
+- [CUDA installation guide linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
+- [How to install nvidia driver with secure boot enabled](https://askubuntu.com/questions/1023036/how-to-install-nvidia-driver-with-secure-boot-enabled)
+- [nvidia driver updater](https://github.com/BdN3504/nvidia-driver-update)

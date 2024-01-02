@@ -1,0 +1,56 @@
+---
+- name: Ensure kernel headers are installed for gpu nodes
+  become: true
+  ansible.builtin.apt:
+    name:
+      - linux-headers-cloud-amd64
+      - gpg
+    state: present
+  when: has_gpu
+
+- name: Ensure non-free source is added for gpu nodes
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian/ bookworm main contrib #non-free non-free-firmware
+    filename: debian_non_free
+  when: has_gpu
+
+- name: Ensure old nvidia key is deleted
+  become: true
+  ansible.builtin.apt_key:
+    id: 7fa2af80
+    state: absent
+  when: has_gpu
+
+- name: Download new nvidia key
+  become: true
+  ansible.builtin.get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+    dest: /tmp/cuda-keyring.deb
+  when: has_gpu
+
+- name: Install nvidia keyring
+  become: true
+  ansible.builtin.apt:
+    deb: /tmp/cuda-keyring.deb
+  when: has_gpu
+
+- name: Ensure packages are updated
+  become: true
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Ensure nvidia driver is installed for gpu nodes
+  become: true
+  ansible.builtin.apt:
+    name:
+      - cuda
+      - libnvcuvid1
+      - libnvidia-encode1
+    state: present
+  when: has_gpu
+
+- name: Reboot
+  become: true
+  ansible.builtin.reboot:

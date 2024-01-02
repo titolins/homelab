@@ -23,7 +23,7 @@
       storage: "{{ template.storage }}"
       format: raw
       efitype: 4m
-      pre_enrolled_keys: 1
+      pre_enrolled_keys: 0 # disable secureboot
     serial:
       serial0: 'socket'
     vga: serial0
@@ -103,6 +103,13 @@
   with_subelements:
     - "{{ vms }}"
     - passthrough_disks
+
+- name: Configure gpu video passthrough
+  become: true
+  ansible.builtin.shell:
+    cmd: qm set {{ item.item.vmid }} -hostpci0 {{ gpu_id }},pcie=1,rombar=1
+  loop: "{{ vm_config.results }}"
+  when: "item.item.passthrough_gpu"
 
 - name: Start VM
   community.general.proxmox_kvm:

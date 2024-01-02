@@ -4,4 +4,5 @@
 - include_tasks: snippets.yaml
 - include_tasks: apt.yaml
 - include_tasks: mount.yaml
+- include_tasks: gpu.yaml
 - meta: flush_handlers
