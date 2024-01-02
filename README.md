@@ -9,7 +9,9 @@ Also, the idea this time around is to provision vm's and setup a k3s cluster ins
 ## Structure
 I didn't want to use any templates since most of them aim to provide a lot of features and it can be hard doing actually following what's going on.
 That being said, now that the basic setup of the nodes is done, I've started looking back at some templates that I had seen before for some inspiration.
-[Truxnell's awesome home-cluster](https://github.com/truxnell/home-cluster/) is the main source for this at this point.
+Two sources for that at this point are:
+ - [Truxnell's awesome home-cluster](https://github.com/truxnell/home-cluster/)
+ - [onedr0p's flux-cluster-template](https://github.com/onedr0p/flux-cluster-template)
 
 ## Apps
 My proxmox setup includes my media box applications plus some other utilities:
@@ -30,6 +32,7 @@ Things to be added on top of that:
 - [sops](https://github.com/getsops/sops)
 - [ansible](https://docs.ansible.com/ansible/latest/index.html)
 - [task](https://taskfile.dev/)
+- [fluxcd](https://fluxcd.io)
 
 ## Ansible
 - Running ansible will create a template based on the chosen cloud-init image and create the VM's
@@ -206,4 +209,6 @@ systemctl restart sshd
 - [CUDA installation guide linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 - [How to install nvidia driver with secure boot enabled](https://askubuntu.com/questions/1023036/how-to-install-nvidia-driver-with-secure-boot-enabled)
 - [nvidia driver updater](https://github.com/BdN3504/nvidia-driver-update)
+- [PCI/GPU Passthrough on Proxmox VE 8](https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/)
 - [jellyfin nvidia hardware acceleration](https://jellyfin.org/docs/general/administration/hardware-acceleration/nvidia/)
+- [The Ultimate Beginner's Guide to GPU Passthrough](https://www.reddit.com/r/homelab/comments/b5xpua/the_ultimate_beginners_guide_to_gpu_passthrough/)
