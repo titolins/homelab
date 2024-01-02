@@ -1,6 +1,8 @@
 ansible_port: ENC[AES256_GCM,data:smCXNA==,iv:+CQr84bd1b1Cp/7n/JVwn1sbIUY5xLFiPmQkYt9FR+k=,tag:zvh8qeo066ix59NyQ/LEuA==,type:int]
 ansible_user: ENC[AES256_GCM,data:+9c=,iv:BnTBevHEMXbBZe1oYJ7pZICYL7QTuA3J1aoTTVNwyrU=,tag:ksM76zz/C0LtrOoeZzHDIw==,type:str]
 pg-endpoint: ENC[AES256_GCM,data:yARbc7SMG42Uce1zRFZL2EXgqA8M1m9OPj5p8raQjcywJfy6VK5Vi/GlYsl6qEadR9TY/06nBTDxYJSipR2ifq2V3ozrQ/vLJgktkjJVco28X07MoPlwpiKLHqrVvAfudw==,iv:ImuHLj2U5L4jwabp/aRc1tsuIoHFIO7Tk3WEHEe8q1Q=,tag:r0QQVQzW/MQ5r1cUUdBd0w==,type:str]
+has_gpu: ENC[AES256_GCM,data:chR9X84=,iv:qEcpHSQpmJPZqmnpqe63klJ4QhYgCy1GkfVc9xP65iw=,tag:QxBIhVZD3JvXw65A7vMzFA==,type:bool]
+mounts: []
 sops:
     kms: []
     gcp_kms: []
@@ -16,8 +18,8 @@ sops:
             M2RRZ3Ric3hlZjZEdVU2aEt0OGJtdUEK1cmKh1YyyKlOXbyU7DdvEwxsZmU/uUTS
             8UBzYQNLcb0B+EUWw45E/omt1are5burTjXSUDXf5esWZamu4jYLtA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-01T21:59:10Z"
-    mac: ENC[AES256_GCM,data:16O1292OhB9nwlMU6u9VJhGMRAKbCNVfdRl8DoKCJ9S7YLmHq8S9hucSwhkIOpCS7mtzNmfXU8bvZF1NoAO1uIdmJwp3dpGSrWZ4iUvB4YIwqktDfNIrbT4eVijIVj/vjel5vm0z1858Ot5ODKuKfHG+nvLEoh2Eh4TmdkVSOWY=,iv:0chX5sthHJ0AqdcG7Rdb8tpf4G8IXJcH3ZPWdwc37fc=,tag:xSLXPPjciuXmtIvQ/JG+SA==,type:str]
+    lastmodified: "2024-01-02T21:55:29Z"
+    mac: ENC[AES256_GCM,data:IhrjkYKttKNFE1a6D6sRkkiBYFRBbOB0pBfmkwEPB8W4p7HI8GbhCI2Mjuubm6F/i2h5+N2W5thxQc7wrJCqrPQr4eKaPOHHo1BueRuOWDVAmJOpttfry16i0x776sxuDf7eAXubSSRqHDgBQRBAjuJM+GKlNAdiyUNa7TSk5FA=,iv:j84cOuQtd+TFsygAvzjTCXxyN1atbP0yPOR8juzffoA=,tag:4YNhzViOwP80rZu3ZtLc1A==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1
