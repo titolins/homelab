@@ -7,7 +7,7 @@ The idea is to use something to automate the provisioning of my vm's. I had alre
 Also, the idea this time around is to provision vm's and setup a k3s cluster instead of individual vms/lxc per app.
 
 ## Apps
-My proxmox setup involves of a media box plus some other network utilities:
+My proxmox setup includes my media box applications plus some other utilities:
 - Sonarr
 - Radarr
 - Jackett
