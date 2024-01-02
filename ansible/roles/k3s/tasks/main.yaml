@@ -51,6 +51,15 @@
     state: present
   when: has_gpu
 
+- name: Add data mount
+  become: true
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    state: mounted
+  loop: "{{ mounts }}"
+
 - name: Reboot
   become: true
   ansible.builtin.reboot:
