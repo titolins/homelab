@@ -35,11 +35,11 @@ tasks:
     cmds:
       - ansible-playbook -i inventory/homelab.yaml playbooks/create-cts.yaml
 
-  pg:
-    desc: Provision postgres container
+  prep-pg:
+    desc: Prepare postgresql container
     dir: '{{.ANSIBLE_DIR}}'
     cmds:
-      - ansible-playbook site.yaml -l postgresql
+      - ansible-playbook -i inventory/homelab.yaml playbooks/prepare-pg.yaml
 
   k3s:
     desc: Provision k3s nodes
