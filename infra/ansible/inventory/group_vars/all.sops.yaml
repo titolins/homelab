@@ -1,3 +1,11 @@
+pve:
+    ansible_port: ENC[AES256_GCM,data:YAQ+eg==,iv:nMQPgPjd3jQX4yuFAx1/4jCHy8Dla3gWXnKtgm4WKoQ=,tag:hnaTt6ee8dhorRmVvq/U9A==,type:int]
+    ansible_user: ENC[AES256_GCM,data:o8w=,iv:zMO++nutaZq/YdIuKUhIQR33F0YWEfhIvofSTrD0s44=,tag:iW2sGV2hxHVfZNpK9on7bw==,type:str]
+    node: ENC[AES256_GCM,data:+I2v,iv:DOOrdDhSxowNTrnpK4HcVk/bBodPoy9KmW6xtLzpxIA=,tag:Sfo7F3MqWNluyWsbaVQlvg==,type:str]
+    api:
+        host: ENC[AES256_GCM,data:vbXr,iv:DyvC+XmuIrrgel1XgAIIlPdwuLQyHrl9tFlHhJ//CYs=,tag:JKmWumZK5YAIldP7UaIJGA==,type:str]
+        user: ENC[AES256_GCM,data:+ofNk7GAs0c=,iv:CVLorcGP6qww9AK1HdSkKQ/cEkVQ2gyfZZmmFUEXM9A=,tag:Vp00e1/vlEtR2koCuyALZQ==,type:str]
+        password: ENC[AES256_GCM,data:IgJFQ64eOs89dVEfLV5tWB7DQTOQgftlslHOyw==,iv:oZh3lZd8ozgEoUDeB2CvOO+GwGNd/lFFFSghkr1/txQ=,tag:PdmNgbMwIDQsdSD9uIWq5A==,type:str]
 ssh_key_path: ENC[AES256_GCM,data:NCCWch9f0/BPTZL1HuZ+lqW4MxlEI62HEwOM4Mucb388Ipvf6225sIFr0h2fA7o=,iv:59ZwsFJerOvbZd7p/pE031Qlgp96EQBMSdPOG6//Jno=,tag:oSW/SlSi8qfbFQpKehM2FQ==,type:str]
 cloud_init:
     ssh_port: ENC[AES256_GCM,data:TI0Xfg==,iv:feeaYsru7qiWbRv4W+Jmrqj7oGo29uiucV7kFOlsxJM=,tag:yYSiezNCyb2Wt34Q8LbliQ==,type:int]
@@ -23,8 +31,8 @@ sops:
             aVFuSU1hRysxQWpIc1ZGQnJVbUF3RTQKsRbw/iCXfrXdwQFd2XsCba/cHYZ7cKqy
             EVMYXk3q8jkM860aB7zL1cFU/4tAXZB2tSZsAiYiykPSexsx2smiPw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-02T22:02:57Z"
-    mac: ENC[AES256_GCM,data:wLJvgLqZVDfr9qE3IHHCO4xRiB9JV6uELfEe/p8qNgOZq7Nqwbnn5PvwR0JFYQP3SPkZoy+ra8+n+JtSoQxJOTGdyKYUzz3adQghoZz0tRoe2JRGrjSx35lzOz7zIOs0TmMZbWDvHKgXM+xJg+b6sPCrOuRqfZBk5uhAm0SITzc=,iv:wmcB28PL2iVtfKCtb4gRPh/ihA/JY5t5qPVHoRX8Pv4=,tag:UHnMtA4U6Y6dSfIDLeTl0Q==,type:str]
+    lastmodified: "2024-01-02T22:13:08Z"
+    mac: ENC[AES256_GCM,data:enxumnEEPT9wcW30w/eJvRGWKGqlDUHXILcqQGq9cANwnnuRC+nGm6ryfsPLdrDxTXVDdiVYYi5dj7JVnltjfeC8zigJbWg2sSRbOEPfOFREiRirZQwRet+hMAPf2w3p7ZCmn0JTlkbf1xjBWjrx+ww9a768FPwoUAeHnvFHD8A=,iv:LWYU5tENyXAktxmR9AiHvYWtZuSU/2tDtpUGvK5srDo=,tag:wtO76HUL3iTmUyMFaHrg7w==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

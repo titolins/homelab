@@ -154,10 +154,10 @@
 
     - name: Create template from cloud-init image
       community.general.proxmox_kvm:
-        api_host: "{{ api.host }}"
-        api_user: "{{ api.user }}"
-        api_password: "{{ api.password }}"
-        node: "{{ node }}"
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
         name: "{{ kvm_template.name }}"
         vmid: "{{ kvm_template.vmid }}"
         tags:
@@ -193,10 +193,10 @@
     ## LXC template setup
     - name: Create template container
       community.general.proxmox:
-        api_host: "{{ api.host }}"
-        api_user: "{{ api.user }}"
-        api_password: "{{ api.password }}"
-        node: "{{ node }}"
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
         tags:
           - ansible
           - lxc
@@ -219,10 +219,10 @@
 
     - name: Start containers
       community.general.proxmox:
-        api_host: "{{ api.host }}"
-        api_user: "{{ api.user }}"
-        api_password: "{{ api.password }}"
-        node: "{{ node }}"
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
         vmid: "{{ lxc_template.vmid }}"
         state: started
       when: create_ct_res.changed
@@ -337,20 +337,20 @@
 
     - name: Stop container
       community.general.proxmox:
-        api_host: "{{ api.host }}"
-        api_user: "{{ api.user }}"
-        api_password: "{{ api.password }}"
-        node: "{{ node }}"
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
         vmid: "{{ lxc_template.vmid }}"
         state: stopped
       when: create_ct_res.changed
 
     - name: Convert to template
       community.general.proxmox:
-        api_host: "{{ api.host }}"
-        api_user: "{{ api.user }}"
-        api_password: "{{ api.password }}"
-        node: "{{ node }}"
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
         vmid: "{{ lxc_template.vmid }}"
         state: template
       when: create_ct_res.changed
