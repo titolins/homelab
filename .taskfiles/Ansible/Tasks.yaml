@@ -17,11 +17,17 @@ tasks:
     preconditions:
       - test -f "{{.ANSIBLE_DIR}}/requirements.yaml"
 
-  pve:
-    desc: Provision pve node
+  prep-pve:
+    desc: Prepare PVE node
     dir: '{{.ANSIBLE_DIR}}'
     cmds:
       - ansible-playbook -i inventory/homelab.yaml playbooks/prepare-pve.yaml
+
+  create-vms:
+    desc: Create VMs
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - ansible-playbook -i inventory/homelab.yaml playbooks/create-vms.yaml
 
   pg:
     desc: Provision postgres container

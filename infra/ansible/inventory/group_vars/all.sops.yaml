@@ -6,7 +6,7 @@ pve:
         host: ENC[AES256_GCM,data:vbXr,iv:DyvC+XmuIrrgel1XgAIIlPdwuLQyHrl9tFlHhJ//CYs=,tag:JKmWumZK5YAIldP7UaIJGA==,type:str]
         user: ENC[AES256_GCM,data:+ofNk7GAs0c=,iv:CVLorcGP6qww9AK1HdSkKQ/cEkVQ2gyfZZmmFUEXM9A=,tag:Vp00e1/vlEtR2koCuyALZQ==,type:str]
         password: ENC[AES256_GCM,data:IgJFQ64eOs89dVEfLV5tWB7DQTOQgftlslHOyw==,iv:oZh3lZd8ozgEoUDeB2CvOO+GwGNd/lFFFSghkr1/txQ=,tag:PdmNgbMwIDQsdSD9uIWq5A==,type:str]
-ssh_key_path: ENC[AES256_GCM,data:NCCWch9f0/BPTZL1HuZ+lqW4MxlEI62HEwOM4Mucb388Ipvf6225sIFr0h2fA7o=,iv:59ZwsFJerOvbZd7p/pE031Qlgp96EQBMSdPOG6//Jno=,tag:oSW/SlSi8qfbFQpKehM2FQ==,type:str]
+ssh_key_path: ENC[AES256_GCM,data:dI+Qskt+6Dzt65xRVxBzGwz8Rr7pazYZlHpOemd0J4VxPlHzISBiN0xSvPazLnk=,iv:DkQdURyxssJAMu8A3etEEme3Yy3kY22rnMUd6pU1xi4=,tag:vPOWH+PdFgt2sKeyNpt1hw==,type:str]
 cloud_init:
     ssh_port: ENC[AES256_GCM,data:TI0Xfg==,iv:feeaYsru7qiWbRv4W+Jmrqj7oGo29uiucV7kFOlsxJM=,tag:yYSiezNCyb2Wt34Q8LbliQ==,type:int]
     username: ENC[AES256_GCM,data:WWI=,iv:nidr8+xBIu/dbuAo5SHoFnqRcpq5PgatRJvkaZML1iM=,tag:C+laqjYDJ77NnA8cujmUeQ==,type:str]
@@ -16,6 +16,20 @@ network:
     dns_server: ENC[AES256_GCM,data:cSH+NjIJxqHyfUk=,iv:jR7sMjysJ2auIA8rFC9UOvQjMzcXrpS4sIXi+jzeDrg=,tag:fv+Aw/BkKx90ZZwmO1MDXA==,type:str]
     domain: ENC[AES256_GCM,data:vTmDqGMEdIVZ,iv:iSGBtFflD6v4KYkb+E2cDbEPrvF/Xvi9YKEq8aXjsKk=,tag:55i9iRgEGplmoTR/sICqeg==,type:str]
     vlan_tag: ENC[AES256_GCM,data:VZUU,iv:1gKZZn74TcCyRUeboVGpvPxb/NCTw+QykK8hTejqzp4=,tag:yd6A3x2StFYCPqsrz5Wb7g==,type:int]
+kvm_template:
+    name: ENC[AES256_GCM,data:CDadJhUX2KOCRwk5MIV9mZc=,iv:m2dJOkKQqmOuBgvIzFpWfWjJoJ8bxaCGCqS45XgJuBE=,tag:DVXyArH0xGikMe7fq2kReg==,type:str]
+    vmid: ENC[AES256_GCM,data:JvQ8,iv:vCBLg2tJW7tc7m2I0HnjOj9a8ZmDi75FuPaD3tAxjU4=,tag:Wz0Jrl9AfrAakiMwV5btGg==,type:int]
+    os_type: ENC[AES256_GCM,data:pMre,iv:vPDG1ykLNrh9P9XvTOVHWu3bAubY+K3gG2j5cTWKJ2w=,tag:gY5ZJ/5kgN543Jc+/a6fwQ==,type:str]
+    storage: ENC[AES256_GCM,data:R6garsFnVZiK,iv:yLX8Uzahg+1Mlv0tHBUnEEAd+G+At0HFlrSlcspWSlM=,tag:+fvPN+m5+WNmP3MAkLy4VQ==,type:str]
+lxc_template:
+    storage: ENC[AES256_GCM,data:eUx57ng=,iv:YIk8rK1koMc+Mn66AkISMYg64b/SvCmnxrGry3kKWYc=,tag:+gMEECIc0ZVgz0Q+NRut4A==,type:str]
+    image: ENC[AES256_GCM,data:bPmsB8wDppk/TU6HkMjqMQFmo5kkr0k6oYqK7VuSGd/dVurjBWAt,iv:WIv2gihMYyymjAElQdaPvIUXb1M+hUQ31ddUOm+Za2w=,tag:7rz7GOrZM5nTNBBCwIsSkQ==,type:str]
+    os_type: ENC[AES256_GCM,data:I7fFJy0d,iv:VvS8i0XR/jNoozYKuIfpLUcNL5exxxv91NKBS968+Yk=,tag:Yg5BxGlt18oiQIHQA9fSdg==,type:str]
+    vmid: ENC[AES256_GCM,data:Fdkd,iv:gBT6OJeqlCfOlyYWRRG2rsWdd3Fbe5zp3/r3PC3G3bA=,tag:wQrBXTzHXdUt4IMBU9/Kvw==,type:int]
+    disk:
+        storage: ENC[AES256_GCM,data:0fdZNmtl+62+,iv:8KNkRifFWPEJY2m4iEt4xaQzrnBi/th2R2OIEUkFr+k=,tag:XEZ+jjCLvm0PX2s9GdrdqQ==,type:str]
+        size: ENC[AES256_GCM,data:VA==,iv:sG7H32K7t9Gw/M5CBvhWxehekYHwXvgBLrTl/l6leZY=,tag:j7oVthgxbC8Kwv+MzIDm2w==,type:int]
+    base_image_uri: ENC[AES256_GCM,data:+NQKNizqSKluG/U8RYPc06gGepSExvz0qNPyupnBeR3kE8UESBaT1dcL4nG1cVbQE8tAvir7QoHwKhPGOG2QN8GaffdIXQuiGAvnG5QeLNRrOjOy69rMQg==,iv:rkCd2XUKZto7oHYoJG8yHdRRW9sGc94hOQ1BWmZFGbY=,tag:vJ13ATrePXF/Vg5mc8tZfg==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -31,8 +45,8 @@ sops:
             aVFuSU1hRysxQWpIc1ZGQnJVbUF3RTQKsRbw/iCXfrXdwQFd2XsCba/cHYZ7cKqy
             EVMYXk3q8jkM860aB7zL1cFU/4tAXZB2tSZsAiYiykPSexsx2smiPw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-02T22:13:08Z"
-    mac: ENC[AES256_GCM,data:enxumnEEPT9wcW30w/eJvRGWKGqlDUHXILcqQGq9cANwnnuRC+nGm6ryfsPLdrDxTXVDdiVYYi5dj7JVnltjfeC8zigJbWg2sSRbOEPfOFREiRirZQwRet+hMAPf2w3p7ZCmn0JTlkbf1xjBWjrx+ww9a768FPwoUAeHnvFHD8A=,iv:LWYU5tENyXAktxmR9AiHvYWtZuSU/2tDtpUGvK5srDo=,tag:wtO76HUL3iTmUyMFaHrg7w==,type:str]
+    lastmodified: "2024-01-02T22:38:10Z"
+    mac: ENC[AES256_GCM,data:ijuHdZGFjOYzvpt6B6LPDVktRB33vdw5WcgmSCvhgRsU2qfg2mQi+4LV6PK2HrPcqPXaXqRQQTHHidkI48Oqftlm20fKsb/SuU95E9QtcgAG2DKV0gzzBN+lNG60yr8BvznehEmEqhODhveDkJuQm5bnSQwfLODQUtmnSddiuh0=,iv:CyZEYCVGyadKcU2sL7pgmmRigAz516vA2qiC5ED+P8A=,tag:HqPSX0QsZgKWHz4TbsOrXg==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

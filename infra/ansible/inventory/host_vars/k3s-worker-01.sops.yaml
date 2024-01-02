@@ -1,8 +1,24 @@
+vmid: ENC[AES256_GCM,data:h86W,iv:6wkfy6Hx/oTWp6pqFQEK+IlP48zghqaT15housX3oVo=,tag:anEYe/VpYGOsZLIk8uRHnQ==,type:int]
+storage: ENC[AES256_GCM,data:J2N9axfhLX2y,iv:ZGP6ECMAmt54jbQj/v1QsIgtHP8A0btWKC2TSvaVK68=,tag:t4WCJNAakIjvJdaLa+3eog==,type:str]
+ip_addr: ENC[AES256_GCM,data:/htghDcGFAslDiWnlhl3wQ==,iv:sA71BWAaGK9pwtDV3M/NPH2blFHFMxQV8Q9HgWVLa2o=,tag:02pVaX2UizTNi8SoGfazuw==,type:str]
+mac_addr: ENC[AES256_GCM,data:MeWy8GnChb8HBEWtjygKo+E=,iv:KJL/+7wEXP6PomsMZ3aIZP27X5sq/lO4ECL9QZF8UJE=,tag:ecm1PwEWt5Ll6qlDXOQR+w==,type:str]
+cpu:
+    cores: ENC[AES256_GCM,data:Tg==,iv:70btjchUhoRjAi8Day5MZka9pkM85UfkYDcs3hunb3Y=,tag:vd9XUp7ssipECOz4rsgIqg==,type:int]
+    sockets: ENC[AES256_GCM,data:ew==,iv:3soZigONZKL6b6l9Lj7yYUFTBt7fZp35BbKfO5fZPyE=,tag:nEMY/aG+smUoVlyM5TW+rA==,type:int]
+memory: ENC[AES256_GCM,data:Y1mQXw==,iv:vN6CgtDA2MgMUHJJVAaj/8VT00OFRvCWucqBwWqGDRA=,tag:nmVgMUK4RjH0+Aorvhcdvg==,type:int]
+disk_size: ENC[AES256_GCM,data:Z0jT,iv:pT8EpYR/p96/KWh6D5eIH9zOlrQQwPkspiSD86rj9+g=,tag:9ELhCMzUmO4H86TYR8Xcmw==,type:str]
+passthrough_disks:
+    - id: ENC[AES256_GCM,data:x262BXg=,iv:PbTQxB3I64EU8O4GWDW8nsq2dfCGwQQg4CProyQBk5Y=,tag:1/3imwf/67L5Xm6/FX7uEQ==,type:str]
+      disk_id: ENC[AES256_GCM,data:ZLsorh25t9IAnHdskkuTIFhDv0hG5g==,iv:46Vg/u2bgHt5vom/jONh9ctwQlwVR8kTpWuBt7Y/yMA=,tag:OY3uqkkXztKaIS+sQ1mEgQ==,type:str]
 has_gpu: ENC[AES256_GCM,data:Ll4Utg==,iv:1S9r6Zjma47xlt5E/cDQKrTrqtMl589OjzsuHUckEt0=,tag:uMl+dLn2neXfCCY121VOEg==,type:bool]
+gpu_id: ENC[AES256_GCM,data:dy4+iDzqMeyQkA==,iv:aiJ+IkPJBlfW2sPxL77hW7daw3yhu8HVDzS0fnfvnTk=,tag:YxqCdihzXRbucZTot8GhAg==,type:str]
 mounts:
     - path: ENC[AES256_GCM,data:hNsAYpGEFXlnlA==,iv:BZ8fWn6Kt9c5WKi9a/6GI2mxw7hjyF1jWm33VqzyO4c=,tag:hydGXQMwK2dcFK4sYmk8Mg==,type:str]
       src: ENC[AES256_GCM,data:5XNhjMe4uZWq,iv:GTQvXJrPKxCQAib1tkTicFD9VkP+6muhGuT1MG6QTNY=,tag:HN03ZTSK60Cf3GhfN9lgEA==,type:str]
       fstype: ENC[AES256_GCM,data:Mi7WAg==,iv:bx6t2dc2EPiFmszGa8zLRct1TTVVkUCgnQ9+gVvJURY=,tag:YWz371dEZOUgwp7G6LM15Q==,type:str]
+pve_tags:
+    - ENC[AES256_GCM,data:/ftL,iv:PheYdDmmkrJ+SJ3bQ3Ou4/26iN067sLTK3YFYEr+uOE=,tag:RgVbo9KB4QlQLfVMEx7yaQ==,type:str]
+    - ENC[AES256_GCM,data:ZEU5IuR3,iv:SX8b+Qzw+LuhfIPLCmd9ncgE/872yDL4kfbHVfzAFus=,tag:sn1CZDu9+BSC58ZvgACbrw==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -18,8 +34,8 @@ sops:
             UFdwQWV3K3dkQk1xTG5XUVpnUmxEc1kKySgVNvgeeKzVgUSWrboG0jjxwU77jMtd
             57mUBfcg+DXrVNMh43/1E5DRrk7ffdCR28mm3Q+vePzZBkvFq933kw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-02T21:54:29Z"
-    mac: ENC[AES256_GCM,data:pqxD5KW6yBtXmtHo13pWOKLzEPJyW3v8EqGNDoU+2tPtP4YP7lEAZxX6eKJtmLdMcLaDxv+8NHGRDizqNT+2LFR2nGq1TMhEnstgPFHyZmXANf6cXdMYuH44h7AtemIyTDAROJwSlbJjm3PflitR4Y8d7dk9CqBF+ZCFjZZT0YI=,iv:oVS5s+zVPlZJbzsLHP6Z0WFkEne3PLn5Lx27w8o0TI8=,tag:9ZyzrCUtcLpvwEXIlz5pTg==,type:str]
+    lastmodified: "2024-01-02T22:32:16Z"
+    mac: ENC[AES256_GCM,data:y0XigTrl2PWO9MzKj0EMXskfxgVsH6Uf0XJgO/b4cNphe4hb9wtJuIrGYSmdWsumNZXRydAKF3aCpSbJoodwhvSrJ79dnMpSnfPOAkndlS3OwZGtLR3cT8KFRY4Jz8zEWH8ojdO2tuGfq9Zpwik5IX+b6dtWwHTvpIhL3p3J/cA=,iv:RwpL/1Yr1QNfR1jRUft2dumB77aNNuLRBTDN1H/2Ndk=,tag:GfjQySQReQtQlLrqHw86yA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

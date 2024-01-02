@@ -1,0 +1,112 @@
+---
+- name: Create VMs
+  hosts: pve_vms
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+  vars:
+    ansible_port: "{{ pve.ansible_port }}"
+    ansible_user: "{{ pve.ansible_user }}"
+  tasks:
+    - name: Upload cloud-init user config file
+      delegate_to: pve
+      ansible.builtin.template:
+        src: templates/user-ci.j2
+        dest: /var/lib/vz/snippets/{{ inventory_hostname }}-user-ci.yaml
+        owner: root
+        group: root
+        mode: '0640'
+
+    - name: Upload cloud-init network config file
+      delegate_to: pve
+      ansible.builtin.template:
+        src: templates/network-ci.j2
+        dest: /var/lib/vz/snippets/{{ inventory_hostname }}-network-ci.yaml
+        owner: root
+        group: root
+        mode: '0640'
+
+    - name: Upload cloud-init vendor config file
+      delegate_to: pve
+      ansible.builtin.template:
+        src: templates/vendor-ci.j2
+        dest: /var/lib/vz/snippets/{{ inventory_hostname }}-vendor-ci.yaml
+        owner: root
+        group: root
+        mode: '0640'
+
+    - name: Clone VMs from cloud-init template
+      delegate_to: pve
+      community.general.proxmox_kvm:
+        node: "{{ pve.node }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        api_host: "{{ pve.api.host }}"
+        clone: "{{ kvm_template.name }}"
+        full: true
+        onboot: true
+        vmid: "{{ kvm_template.vmid }}"
+        name: "{{ inventory_hostname }}"
+        newid: "{{ vmid }}"
+
+    - name: Fetch VM configuration
+      delegate_to: pve
+      ansible.builtin.shell:
+        cmd: qm config {{ vmid }}
+      register: vm_config
+
+    - name: Update VM params
+      delegate_to: pve
+      vars:
+        cicustom: "network=local:snippets/{{ inventory_hostname }}-network-ci.yaml,user=local:snippets/{{ inventory_hostname }}-user-ci.yaml,vendor=local:snippets/{{ inventory_hostname }}-vendor-ci.yaml"
+      community.general.proxmox_kvm:
+        node: "{{ pve.node }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        api_host: "{{ pve.api.host }}"
+        vmid: "{{ vmid }}"
+        tags: "{{ pve_tags + ['ansible'] }}"
+        update: true
+        cores: "{{ cpu.cores }}"
+        memory: "{{ memory }}"
+        sockets: "{{ cpu.sockets }}"
+        cicustom: "{{ cicustom }}"
+        citype: nocloud
+      when: "cicustom not in vm_config.stdout"
+
+    - name: Setup VM net
+      delegate_to: pve
+      vars:
+        net0: virtio={{ mac_addr }},bridge=vmbr0,tag={{ network.vlan_tag }}
+      ansible.builtin.shell:
+        cmd: qm set {{ vmid }} --net0 {{ net0 }}
+      when: "net0 not in vm_config.stdout"
+
+    - name: Resize VM disk
+      delegate_to: pve
+      ansible.builtin.shell:
+        cmd: qm resize {{ vmid }} scsi0 {{ disk_size }}
+      when: "disk_size not in vm_config.stdout"
+
+    - name: Configure passthrough disks
+      delegate_to: pve
+      ansible.builtin.shell:
+        cmd: qm set {{ vmid }} -{{ item.id }} /dev/disk/by-id/{{ item.disk_id }}
+      loop: "{{ passthrough_disks }}"
+
+    - name: Configure gpu video passthrough
+      delegate_to: pve
+      ansible.builtin.shell:
+        cmd: qm set {{ vmid }} -hostpci0 {{ gpu_id }},pcie=1,rombar=1
+      when: "has_gpu"
+
+    - name: Start VM
+      delegate_to: pve
+      community.general.proxmox_kvm:
+        node: "{{ pve.node }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        api_host: "{{ pve.api.host }}"
+        vmid: "{{ vmid }}"
+        state: started
+        timeout: 1000

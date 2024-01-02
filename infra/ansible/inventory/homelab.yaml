@@ -2,6 +2,12 @@ pve_nodes_home:
   hosts:
     pve:
 
+pve_vms:
+  hosts:
+    k3s-control-01:
+    k3s-worker-01:
+    k3s-worker-02:
+
 pve_containers:
   hosts:
     postgresql:
