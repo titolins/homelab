@@ -8,7 +8,7 @@ pve_vms:
     k3s-worker-01:
     k3s-worker-02:
 
-pve_containers:
+pve_cts:
   hosts:
     postgresql:
 

@@ -1,0 +1,50 @@
+---
+- name: Create containers
+  hosts: pve_cts
+  become: true
+  gather_facts: false
+  any_errors_fatal: true
+  vars:
+    ansible_port: "{{ pve.ansible_port }}"
+    ansible_user: "{{ pve.ansible_user }}"
+  tasks:
+    - name: Create container from template
+      delegate_to: pve
+      community.general.proxmox:
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
+        tags: "{{ pve_tags + ['ansible', 'lxc'] }}"
+        clone: "{{ lxc_template.vmid }}"
+        clone_type: "full"
+        storage: "{{ storage }}"
+        vmid: "{{ vmid }}"
+        hostname: "{{ inventory_hostname }}"
+        onboot: true
+        cores: "{{ cores }}"
+        memory: "{{ memory }}"
+        disk: "{{ storage }}:{{ disk_size }}"
+        netif: '{"net0":"name=eth0,type=veth,bridge=vmbr0,tag={{ network.vlan_tag }},gw={{ network.gateway }},ip={{ ip_addr }},hwaddr={{ mac_addr }}"}'
+      register: create_ct_res
+
+    # Did this as a hack because neither adding the mounts on clone nor trying to update using the proxmox role were working and I just wanted to get this done
+    - name: Configure mounts
+      delegate_to: pve
+      become: true
+      vars:
+        mount: "{{ item.storage }}:{{ item.size }},mp={{ item.mount_point }},{% if item.read_only is defined and item.read_only %}ro=1,{% endif %}{% if item.backup is defined and item.backup %}backup=1,{% endif %}{% if item.replicate is defined and item.replicate %}replicate=1{% endif %}"
+      ansible.builtin.shell:
+        cmd: pct set {{ vmid }} -{{ item.id }} {{ mount }}
+      loop: "{{ mounts }}"
+      when: create_ct_res.changed
+
+    - name: Start containers
+      delegate_to: pve
+      community.general.proxmox:
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
+        vmid: "{{ vmid }}"
+        state: started

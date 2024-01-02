@@ -29,6 +29,12 @@ tasks:
     cmds:
       - ansible-playbook -i inventory/homelab.yaml playbooks/create-vms.yaml
 
+  create-cts:
+    desc: Create Containers
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - ansible-playbook -i inventory/homelab.yaml playbooks/create-cts.yaml
+
   pg:
     desc: Provision postgres container
     dir: '{{.ANSIBLE_DIR}}'
