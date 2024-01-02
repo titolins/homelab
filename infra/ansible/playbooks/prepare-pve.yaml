@@ -164,7 +164,8 @@
         vmid: "{{ kvm_template.vmid }}"
         tags:
           - ansible
-          - kvm_template
+          - kvm
+          - template
         bios: ovmf
         boot: 'order=scsi0'
         cores: 2
@@ -184,7 +185,7 @@
         vga: serial0
         scsihw: 'virtio-scsi-single'
         scsi:
-          scsi0: "{{ kvm_template.storage }}:0,iothread=1,discard=on,import-from=tmp/{{ kvm_template_filename }}"
+          scsi0: "{{ kvm_template.storage }}:0,iothread=1,discard=on,import-from=/tmp/{{ kvm_template_filename }}"
           scsi1: '{{ kvm_template.storage }}:cloudinit'
         net:
           net0: 'virtio,bridge=vmbr0'
@@ -219,7 +220,7 @@
         password: "{{ cloud_init.password | password_hash('sha512') }}"
       register: create_ct_res
 
-    - name: Start containers
+    - name: Start container
       community.general.proxmox:
         api_host: "{{ pve.api.host }}"
         api_user: "{{ pve.api.user }}"
@@ -241,6 +242,9 @@
     ## this and update pam-auth are required for fixing the slow ssh issues with debian
     - name: Mask systemd-logind
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.systemd_service:
         name: systemd-logind
         masked: true
@@ -248,12 +252,18 @@
 
     - name: Update pam-auth
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.shell:
         cmd: pam-auth-update --remove systemd
       when: create_ct_res.changed
 
     - name: Setup user
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.user:
         name: "{{ cloud_init.username }}"
         password: "{{ cloud_init.password | password_hash('sha512') }}"
@@ -269,6 +279,9 @@
 
     - name: Ensure packages are updated
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.apt:
         upgrade: yes
         update_cache: yes
@@ -276,6 +289,9 @@
 
     - name: Ensure required packages are installed
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.apt:
         name: [sudo]
         state: present
@@ -285,6 +301,9 @@
 
     - name: Add user to sudoers
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       community.general.sudoers:
         commands: ALL
         name: "{{ cloud_init.username }}"
@@ -294,6 +313,9 @@
 
     - name: Add authorized key
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.posix.authorized_key:
         user: "{{ cloud_init.username }}"
         key: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
@@ -301,6 +323,9 @@
 
     - name: Add sshd config
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.template:
         src: templates/sshd_config.j2
         dest: /etc/ssh/sshd_config.d/00-ansible.conf
@@ -311,6 +336,9 @@
 
     - name: Mask ssh.socket
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.systemd_service:
         name: ssh.socket
         masked: true
@@ -318,6 +346,9 @@
 
     - name: Mask sshd.socket
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.systemd_service:
         name: sshd.socket
         masked: true
@@ -325,6 +356,9 @@
 
     - name: Disable sshd
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.systemd_service:
         name: sshd
         enabled: false
@@ -332,6 +366,9 @@
 
     - name: Ensure ssh is enabled
       delegate_to: lxc-template
+      vars:
+        ansible_port: 22
+        ansible_user: root
       ansible.builtin.service:
         name: ssh
         enabled: true
