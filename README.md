@@ -10,7 +10,8 @@ Also, the idea this time around is to provision vm's and setup a k3s cluster ins
 My proxmox setup includes my media box applications plus some other utilities:
 - Sonarr
 - Radarr
-- Jackett
+- Bazarr
+- Prowlarr
 - Deluge
 - Jellyfin (with HW encoding)
 - Unifi controller
