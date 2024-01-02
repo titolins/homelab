@@ -16,7 +16,7 @@
     #    when: "'control' in inventory_hostname"
   tasks:
     - name: Configure nodes
-      include_role:
+      ansible.builtin.include_role:
         name: nvidia
       when: has_gpu
 
