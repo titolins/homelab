@@ -65,7 +65,7 @@
         api_password: "{{ pve.api.password }}"
         api_host: "{{ pve.api.host }}"
         vmid: "{{ vmid }}"
-        tags: "{{ pve_tags + ['ansible'] }}"
+        tags: "{{ pve_tags + ['ansible', 'kvm'] }}"
         update: true
         cores: "{{ cpu.cores }}"
         memory: "{{ memory }}"

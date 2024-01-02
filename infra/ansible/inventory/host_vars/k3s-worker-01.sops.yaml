@@ -17,8 +17,7 @@ mounts:
       src: ENC[AES256_GCM,data:5XNhjMe4uZWq,iv:GTQvXJrPKxCQAib1tkTicFD9VkP+6muhGuT1MG6QTNY=,tag:HN03ZTSK60Cf3GhfN9lgEA==,type:str]
       fstype: ENC[AES256_GCM,data:Mi7WAg==,iv:bx6t2dc2EPiFmszGa8zLRct1TTVVkUCgnQ9+gVvJURY=,tag:YWz371dEZOUgwp7G6LM15Q==,type:str]
 pve_tags:
-    - ENC[AES256_GCM,data:/ftL,iv:PheYdDmmkrJ+SJ3bQ3Ou4/26iN067sLTK3YFYEr+uOE=,tag:RgVbo9KB4QlQLfVMEx7yaQ==,type:str]
-    - ENC[AES256_GCM,data:ZEU5IuR3,iv:SX8b+Qzw+LuhfIPLCmd9ncgE/872yDL4kfbHVfzAFus=,tag:sn1CZDu9+BSC58ZvgACbrw==,type:str]
+    - ENC[AES256_GCM,data:j8ObIELIdz/OZA==,iv:Ng8ugctoGARmpCsXLlBF0Di6rG4dvDR7OGiGnG2lBiA=,tag:USPGoJloEKghZlA0ylHURQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -34,8 +33,8 @@ sops:
             UFdwQWV3K3dkQk1xTG5XUVpnUmxEc1kKySgVNvgeeKzVgUSWrboG0jjxwU77jMtd
             57mUBfcg+DXrVNMh43/1E5DRrk7ffdCR28mm3Q+vePzZBkvFq933kw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-02T22:32:16Z"
-    mac: ENC[AES256_GCM,data:y0XigTrl2PWO9MzKj0EMXskfxgVsH6Uf0XJgO/b4cNphe4hb9wtJuIrGYSmdWsumNZXRydAKF3aCpSbJoodwhvSrJ79dnMpSnfPOAkndlS3OwZGtLR3cT8KFRY4Jz8zEWH8ojdO2tuGfq9Zpwik5IX+b6dtWwHTvpIhL3p3J/cA=,iv:RwpL/1Yr1QNfR1jRUft2dumB77aNNuLRBTDN1H/2Ndk=,tag:GfjQySQReQtQlLrqHw86yA==,type:str]
+    lastmodified: "2024-01-02T22:55:10Z"
+    mac: ENC[AES256_GCM,data:Cj9lPrSlxjk+h8B5TzyL00iTOWBjSeO3jWBe70Ge7I7ckEnk7z5wdtFdJbBwNQh4RxGCJh1YoEyzu22KEQG8lIv16wKM+XPCiGl79M3J+oiBQTOZCw7UCV/tzIjZLxaIybSPzI3EE0PSH8DLwG2FTrGLjO/FVb1DCwI7PuGu5ww=,iv:LJ0x6jyrZmBiNbMJ0iouJFkw7+JbzrAYn+LgC1kNSy4=,tag:U2pYnEmZZR3Nj/melkaDJA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1
