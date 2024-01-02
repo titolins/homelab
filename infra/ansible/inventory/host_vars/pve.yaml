@@ -1,15 +1,11 @@
 ---
 ## Template image settings
-template:
+kvm_template:
   name: Debian12CloudInit
   vmid: 900
   os_type: l26
   storage: local-lvm
-  file:
-    name: "debian-12-genericcloud-amd64.qcow2"
-  download:
-    path: "/tmp"
-    uri: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
+  base_image_uri: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
 
 lxc_template:
   storage: local
