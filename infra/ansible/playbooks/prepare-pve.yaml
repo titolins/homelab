@@ -4,6 +4,8 @@
   gather_facts: true
   any_errors_fatal: true
   vars:
+    ansible_port: "{{ pve.ansible_port }}"
+    ansible_user: "{{ pve.ansible_user }}"
     kvm_template_filename: "{{ kvm_template.base_image_uri | urlsplit('path') | basename }}"
   tasks:
     - name: Ensure pve python libraries are installed
