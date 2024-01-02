@@ -200,3 +200,4 @@ systemctl restart sshd
 - [CUDA installation guide linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 - [How to install nvidia driver with secure boot enabled](https://askubuntu.com/questions/1023036/how-to-install-nvidia-driver-with-secure-boot-enabled)
 - [nvidia driver updater](https://github.com/BdN3504/nvidia-driver-update)
+- [jellyfin nvidia hardware acceleration](https://jellyfin.org/docs/general/administration/hardware-acceleration/nvidia/)
