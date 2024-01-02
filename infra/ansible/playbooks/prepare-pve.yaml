@@ -192,8 +192,6 @@
 
     ## LXC template setup
     - name: Create template container
-      vars:
-        ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
       community.general.proxmox:
         api_host: "{{ api.host }}"
         api_user: "{{ api.user }}"
@@ -294,8 +292,6 @@
 
     - name: Add authorized key
       delegate_to: lxc-template
-      vars:
-        ssh_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
       ansible.posix.authorized_key:
         user: "{{ cloud_init.username }}"
         key: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
