@@ -3,17 +3,32 @@
   become: true
   gather_facts: true
   any_errors_fatal: true
-    #vars:
-    #  k3s_server:
-    #    datastore-endpoint: "{{ pg-endpoint }}"
-    #  k3s_agent:
-    #    node-label:
-    #      - "has_gpu={{ has_gpu | default(false) }}"
-    #pre_tasks:
-    #  - name: Set each node to be a control node
-    #    ansible.builtin.set_fact:
-    #      k3s_control_node: true
-    #    when: "'control' in inventory_hostname"
+  vars:
+    k3s_server:
+      datastore-endpoint: "{{ datastore-endpoint }}"
+      docker: false
+      flannel-backend: "none"
+      disable:
+          # Disable coredns                 - replaced with Coredns Helm Chart
+          - coredns
+          # Disable flannel                 - replaced with Cilium Helm Chart
+          - flannel
+          # Disable local-path-provisioner  - replaced with democratic-csi
+          - local-storage
+          # Disable metrics-server          - installed with Flux
+          - metrics-server
+          # Disable servicelb               - replaced with Cilium Helm Chart
+          - servicelb
+          # Disable traefik                 - replaced with ingress-nginx and installed with Flux
+          - traefik
+    k3s_agent:
+      node-label:
+        - "has_gpu={{ has_gpu | default(false) }}"
+  pre_tasks:
+    - name: Set each node to be a control node
+      ansible.builtin.set_fact:
+        k3s_control_node: true
+      when: "'control' in inventory_hostname"
   tasks:
     - name: Configure nodes
       ansible.builtin.include_role:
@@ -33,11 +48,16 @@
         fstype: "{{ item.fstype }}"
         state: mounted
       loop: "{{ mounts }}"
+      ignore_errors: true
 
-    - name: Install 3s
+    - name: Install k3s
       ansible.builtin.include_role:
         name: xanmanning.k3s
         public: true
       vars:
         k3s_state: installed
 
+    - name: Kubeconfig
+      vars:
+        kubeconfig_path: "{{ lookup('env'', 'HOME') }}/.kube/config"
+      ansible.builtin.include_tasks: tasks/kubeconfig.yaml

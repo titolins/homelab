@@ -41,8 +41,8 @@ tasks:
     cmds:
       - ansible-playbook -i inventory/homelab.yaml playbooks/prepare-pg.yaml
 
-  k3s:
-    desc: Provision k3s nodes
+  setup-k3s:
+    desc: Prepare nodes and install k3s
     dir: '{{.ANSIBLE_DIR}}'
     cmds:
-      - ansible-playbook site.yaml -l k3s_nodes
+      - ansible-playbook -i inventory/homelab.yaml playbooks/setup-k3s.yaml
