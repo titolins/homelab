@@ -172,6 +172,7 @@ systemctl restart sshd
     - This is a really great role and helped a lot getting the cluster up and running fast
     - But it's very opinionated, and configuring it to do exactly what I want can be cumbersome
     - Might be simpler to use [k3s' installation script](https://docs.k3s.io/quick-start) to get a barebones installation and just use fluxcd to setup everything (or as most as possible anyways)
+        - onedr0p's template might help with that though
 
 - Proper hardening
     - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
