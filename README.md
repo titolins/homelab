@@ -35,13 +35,10 @@ Things to be added on top of that:
 - [fluxcd](https://fluxcd.io)
 
 ## Ansible
-- Running ansible will create a template based on the chosen cloud-init image and create the VM's
-  provisioned in the pve host
-
-- Please note that I'm not a devops/sysadmin and my focus is actually learning kubernetes, not ansible
-    - Ansible is here just to help me automate the configuration
-    - So yeah, the ansible code is a bit of a mess
-    - I'll try to improve it at some point
+- To check available ansible tasks just run `task`
+- The tasks prefixed with `an` are responsible for bootstrapping proxmox/k3s
+    - Right now, VMs are used as k3s nodes as running k3s on LXC containers is still not properly supported
+    - There's also one LXC container that gets created for hosting our postgres DB used by k3s and in the future others (e.g. homeassistant)
 
 ### Configuration
 - Some part of the configuration is encrypted using sops
@@ -63,28 +60,28 @@ Things to be added on top of that:
 - To do that, just run `task ansible-requirements`
 
 ### Running
-- There's a provided task file just to make it a bit easier to run the playbook from the root dir
-- After installing task, there's a couple of tasks to bootstrap everything
-    - The main playbook contains all steps required (apart from initial manual steps ofc)
-    - But since it takes some time for cloud-init to do it's thing, running it in one go doesn't really work
-    - So running `task ansible-pve` will run the playbook for the pve node only
-    - This will create a vm and a container templates and provision the containers/vms defined in the host config
-    - One it's finished and we can access the containers/vms via ssh, we can configure them
+- The playbooks used to bootstrap proxmox are located in `infra/ansible/playbooks`
+    - `task an:prep-pve` will install do the base steps for getting the PVE node - this includes:
+        - Installing required packages/pip packages
+        - Removing subscription prompt
+        - Creating snippets directory for uploading the cloud-init files
+        - Mount any disks configured for the node
+        - Execute steps required to enable GPU passthrough
+        - Download base cloudinit and LXC images and create the templates to be cloned
+    - `task an:create-vms` will create and perform basic configuration of the VMs
+    - `task an:create-cts` will create and perform basic configuration of the containers
+    - `task an:prep-pg` will install and perform basic configuration of postgres in the created container
+    - `task an:setup-k3s` does two things actually:
+        - Install the nvidia driver and setup the host PCI passthrough for the configured GPU for the specified node (controlled by the `has_gpu` variable)
+        - install and perform basic configuration of k3s in the created VMS
 
-Note: For the vm template to be created successfuly, there's a wait for connection instruction. But since it's a new host,
-ssh will prompt for host key check. To make it work, add a respective section for the host on `~/.ssh/config`:
-```sshconfig
-Host lxc-template
-  Hostname lxc-template.{{ domain }}
-  User root
-  Port 22
-  IdentityFile ~/.ssh/id_ed25519
-  StrictHostKeyChecking accept-new # <- that tells ssh to accept new keys if none exists (so if re-provisioning the template, you should delete the old key from `~/.ssh/known_hosts`
+Note: To make ansible bootstrapping simpler, it's recommended to add the following to `.ssh/config` to the created nodes
 ```
-
-## k3s
-- k3s was setup using the [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) role
-- Run `task ansible-k3s` for configuring the k3s cluster
+StrictHostKeyChecking accept-new # <- that tells ssh to accept new keys if none exists (so if re-provisioning the template, you should delete the old key from `~/.ssh/known_hosts`
+```
+- This is done to ensure that ansible doesn't prompt the user to confirm the host ssh key
+- Note that if you delete the VMs or containers and try to recreate it, the confirmation will fail
+    - To fix that, you should remove the old VMs/containers keys from `.ssh/known_hosts`
 
 ## Manual steps (PVE)
 - Some manual steps are still required for initial setup of the proxmox node
