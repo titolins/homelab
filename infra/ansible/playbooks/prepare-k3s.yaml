@@ -24,3 +24,9 @@
         opts: "{{ item.opts }}"
         state: mounted
       loop: "{{ mounts }}"
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: Rebooting nodes
+        reboot_timeout: 3600

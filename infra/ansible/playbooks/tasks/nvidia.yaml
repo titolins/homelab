@@ -39,6 +39,4 @@
           - libnvcuvid1
           - libnvidia-encode1
         state: present
-
-    - name: Reboot
-      ansible.builtin.reboot:
+      notify: Reboot
