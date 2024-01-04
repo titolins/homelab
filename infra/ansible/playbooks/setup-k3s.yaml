@@ -1,3 +1,4 @@
+---
 - name: Setup nodes and install k3s
   hosts: k3s_nodes
   become: true
@@ -15,16 +16,16 @@
     #      k3s_control_node: true
     #    when: "'control' in inventory_hostname"
   tasks:
-    - name: Configure nodes
-      ansible.builtin.include_role:
-        name: nvidia
+    - name: Setup nvidia driver
+      ansible.builtin.include_tasks:
+        file: tasks/nvidia.yaml
       when: has_gpu
 
     - name: Ensure packages are updated
       ansible.builtin.apt:
         upgrade: yes
         update_cache: yes
-      when: not has_gpu # since nvidia role already does that
+      when: not has_gpu # since nvidia tasks already does that
 
     - name: Add data mount
       ansible.posix.mount:

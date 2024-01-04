@@ -1,3 +1,4 @@
+---
 - name: Prepare pve node
   hosts: postgresql
   gather_facts: true

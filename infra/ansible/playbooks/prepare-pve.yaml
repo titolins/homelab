@@ -1,3 +1,4 @@
+---
 - name: Prepare pve node
   hosts: pve
   become: true
@@ -8,36 +9,9 @@
     ansible_user: "{{ pve.ansible_user }}"
     kvm_template_filename: "{{ kvm_template.base_image_uri | urlsplit('path') | basename }}"
   tasks:
-    - name: Ensure pve python libraries are installed
-      ansible.builtin.apt:
-        name: 
-          - python3-proxmoxer
-          - python3-requests
-        state: present
-        update_cache: true
-        install_recommends: false
-
-    - name: Remove the subscription prompt from regular js file
-      ansible.builtin.replace:
-        path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
-        regexp: 'Ext\.Msg\.show(\(\{\s+title: gettext\(.No valid subscription)'
-        replace: 'void\1'
-        backup: true
-      notify: Reboot
-
-    - name: Check the minified js file exists
-      stat:
-        path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.min.js
-      register: min_js_stat
-
-    - name: Remove the subscription prompt from minified js file
-      ansible.builtin.replace:
-        path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.min.js
-        regexp: 'Ext\.Msg\.show(\(\{title:gettext\("No valid subscription)'
-        replace: 'void\1'
-        backup: true
-      notify: Reboot
-      when: min_js_stat.stat.exists
+    - name: Ensures pve subscription block is removed
+      ansible.builtin.include_tasks:
+        file: tasks/pve-prompt.yaml
 
     - name: Ensure snippets directory exists
       ansible.builtin.file:
@@ -51,6 +25,15 @@
         update_cache: yes
       ignore_errors: true
 
+    - name: Ensure pve python libraries are installed
+      ansible.builtin.apt:
+        name: 
+          - python3-proxmoxer
+          - python3-requests
+        state: present
+        update_cache: true
+        install_recommends: false
+
     - name: Ensure pve mounts are in place
       ansible.posix.mount:
         path: "{{ item.path }}"
@@ -59,341 +42,17 @@
         state: mounted
       loop: "{{ mounts }}"
 
-    ## PCI GPU passthrough
-    - name: Ensure iommu is passed to grub options
-      ansible.builtin.lineinfile:
-        path: /etc/default/grub
-        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
-        line: GRUB_CMDLINE_LINUX_DEFAULT="quiet iommu=pt"
-        backup: true
-      register: change_grub_res
+    - name: Ensures GPU passthrough is configured
+      ansible.builtin.include_tasks:
+        file: tasks/gpu-passthrough.yaml
 
-    - name: Update grub
-      ansible.builtin.shell: update-grub
-      when: change_grub_res.changed
-      notify: Reboot
+    - name: Ensures KVM template is configured
+      ansible.builtin.include_tasks:
+        file: tasks/kvm-template.yaml
 
-    - name: Add vfio module
-      community.general.modprobe:
-        name: vfio
-        persistent: present
-      register: vfio_res
-
-    - name: Add vfio_iommu_type1 module
-      community.general.modprobe:
-        name: vfio_iommu_type1
-        persistent: present
-      register: vfio_iommu_type1_res
-
-    - name: Add vfio_pci module
-      community.general.modprobe:
-        name: vfio_pci
-        params: ids=10de:1c03,10de:10f1
-        persistent: present
-      register: vfio_pci_res
-
-    - name: Add nouveau softdep
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/vfio_pci.conf
-        line: "softdep nouveau pre: vfio-pci"
-      register: nouveau_softdep_res
-
-    - name: Add nvidia softdep
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/vfio_pci.conf
-        line: "softdep nvidia pre: vfio-pci"
-      register: nvidia_softdep_res
-
-    - name: Add nvidiafb softdep
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/vfio_pci.conf
-        line: "softdep nvidiafb pre: vfio-pci"
-      register: nvidiafb_softdep_res
-
-    - name: Add nvidia_drm softdep
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/vfio_pci.conf
-        line: "softdep nvidia_drm pre: vfio-pci"
-      register: nvidia_drm_softdep_res
-
-    - name: Add drm softdep
-      ansible.builtin.lineinfile:
-        path: /etc/modprobe.d/vfio_pci.conf
-        line: "softdep drm pre: vfio-pci"
-      register: drm_softdep_res
-
-    - name: Update initramfs
-      ansible.builtin.shell: update-initramfs -u -k all
-      when: >
-       (vfio_res is defined and vfio_res.changed) or
-       (vfio_iommu_type1_res is defined and vfio_iommu_type1_res.changed) or
-       (vfio_pci_res is defined and vfio_pci_res.changed) or
-       (nouveau_softdep_res is defined and nouveau_softdep_res.changed) or
-       (nvidia_softdep_res is defined and nvidia_softdep_res.changed) or
-       (nvidiafb_softdep_res is defined and nvidiafb_softdep_res.changed) or
-       (nvidia_drm_softdep_res is defined and nvidia_drm_softdep_res.changed) or
-       (drm_softdep_res is defined and drm_softdep_res.changed)
-      notify: Reboot
-    ## End PCI GPU passthrough
-
-    ## KVM template setup
-    - name: Check if cloudinit image is present
-      ansible.builtin.stat:
-        path: "/tmp/{{ kvm_template_filename }}"
-      register: ci_stat
-
-    - name: Download cloud-init image
-      ansible.builtin.get_url:
-        url: "{{ kvm_template.base_image_uri }}"
-        dest: "/tmp/{{ kvm_template_filename }}"
-        mode: '0644'
-        force: true
-      when: not ci_stat.stat.exists
-
-    - name: Ensure lxc template is present
-      ansible.builtin.shell:
-        cmd: pveam download {{ lxc_template.storage }} {{ lxc_template.image }}
-
-    - name: Create template from cloud-init image
-      community.general.proxmox_kvm:
-        api_host: "{{ pve.api.host }}"
-        api_user: "{{ pve.api.user }}"
-        api_password: "{{ pve.api.password }}"
-        node: "{{ pve.node }}"
-        name: "{{ kvm_template.name }}"
-        vmid: "{{ kvm_template.vmid }}"
-        tags:
-          - ansible
-          - kvm
-          - template
-        bios: ovmf
-        boot: 'order=scsi0'
-        cores: 2
-        sockets: 1
-        machine: q35
-        memory: 4096
-        agent: 1
-        autostart: true
-        ostype: "{{ kvm_template.os_type }}"
-        efidisk0:
-          storage: "{{ kvm_template.storage }}"
-          format: raw
-          efitype: 4m
-          pre_enrolled_keys: 0 # disable secureboot
-        serial:
-          serial0: 'socket'
-        vga: serial0
-        scsihw: 'virtio-scsi-single'
-        scsi:
-          scsi0: "{{ kvm_template.storage }}:0,iothread=1,discard=on,import-from=/tmp/{{ kvm_template_filename }}"
-          scsi1: '{{ kvm_template.storage }}:cloudinit'
-        net:
-          net0: 'virtio,bridge=vmbr0'
-        template: true
-        timeout: 1000
-    ## End KVM template setup
-
-    ## LXC template setup
-    - name: Create template container
-      community.general.proxmox:
-        api_host: "{{ pve.api.host }}"
-        api_user: "{{ pve.api.user }}"
-        api_password: "{{ pve.api.password }}"
-        node: "{{ pve.node }}"
-        tags:
-          - ansible
-          - lxc
-          - template
-        vmid: "{{ lxc_template.vmid }}"
-        hostname: lxc-template
-        ostemplate: "{{ lxc_template.storage }}:vztmpl/{{ lxc_template.image }}"
-        ostype: "{{ lxc_template.os_type }}"
-        onboot: true
-        cores: 1
-        memory: 2048
-        disk: "{{ lxc_template.disk.storage }}:{{ lxc_template.disk.size }}"
-        netif: '{"net0":"name=eth0,type=veth,bridge=vmbr0,tag={{ network.vlan_tag }},ip=dhcp"}'
-        searchdomain: "{{ network.domain }}"
-        nameserver: "{{ network.dns_server }}"
-        pubkey: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
-        timezone: Europe/Berlin
-        password: "{{ cloud_init.password | password_hash('sha512') }}"
-      register: create_ct_res
-
-    - name: Start container
-      community.general.proxmox:
-        api_host: "{{ pve.api.host }}"
-        api_user: "{{ pve.api.user }}"
-        api_password: "{{ pve.api.password }}"
-        node: "{{ pve.node }}"
-        vmid: "{{ lxc_template.vmid }}"
-        state: started
-      when: create_ct_res.changed
-
-    - name: Wait for container
-      become: false
-      delegate_to: localhost
-      wait_for:
-        host: lxc-template
-        port: 22
-        delay: 5
-      when: create_ct_res.changed
-
-    ## this and update pam-auth are required for fixing the slow ssh issues with debian
-    - name: Mask systemd-logind
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.systemd_service:
-        name: systemd-logind
-        masked: true
-      when: create_ct_res.changed
-
-    - name: Update pam-auth
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.shell:
-        cmd: pam-auth-update --remove systemd
-      when: create_ct_res.changed
-
-    - name: Setup user
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.user:
-        name: "{{ cloud_init.username }}"
-        password: "{{ cloud_init.password | password_hash('sha512') }}"
-        shell: /bin/bash
-        append: true
-        create_home: true
-        expires: -1
-        groups:
-          - root
-          - sudo
-        home: "/home/{{ cloud_init.username }}"
-      when: create_ct_res.changed
-
-    - name: Ensure packages are updated
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.apt:
-        upgrade: yes
-        update_cache: yes
-      when: create_ct_res.changed
-
-    - name: Ensure required packages are installed
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.apt:
-        name: [sudo]
-        state: present
-        update_cache: true
-        install_recommends: false
-      when: create_ct_res.changed
-
-    - name: Add user to sudoers
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      community.general.sudoers:
-        commands: ALL
-        name: "{{ cloud_init.username }}"
-        user: "{{ cloud_init.username }}"
-        nopassword: true
-      when: create_ct_res.changed
-
-    - name: Add authorized key
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.posix.authorized_key:
-        user: "{{ cloud_init.username }}"
-        key: "{{ lookup('ansible.builtin.file', '{{ ssh_key_path }}') }}"
-      when: create_ct_res.changed
-
-    - name: Add sshd config
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.template:
-        src: templates/sshd_config.j2
-        dest: /etc/ssh/sshd_config.d/00-ansible.conf
-        owner: root
-        group: root
-        mode: '0644'
-      when: create_ct_res.changed
-
-    - name: Mask ssh.socket
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.systemd_service:
-        name: ssh.socket
-        masked: true
-      when: create_ct_res.changed
-
-    - name: Mask sshd.socket
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.systemd_service:
-        name: sshd.socket
-        masked: true
-      when: create_ct_res.changed
-
-    - name: Disable sshd
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.systemd_service:
-        name: sshd
-        enabled: false
-      when: create_ct_res.changed
-
-    - name: Ensure ssh is enabled
-      delegate_to: lxc-template
-      vars:
-        ansible_port: 22
-        ansible_user: root
-      ansible.builtin.service:
-        name: ssh
-        enabled: true
-      when: create_ct_res.changed
-
-    - name: Stop container
-      community.general.proxmox:
-        api_host: "{{ pve.api.host }}"
-        api_user: "{{ pve.api.user }}"
-        api_password: "{{ pve.api.password }}"
-        node: "{{ pve.node }}"
-        vmid: "{{ lxc_template.vmid }}"
-        state: stopped
-      when: create_ct_res.changed
-
-    - name: Convert to template
-      community.general.proxmox:
-        api_host: "{{ pve.api.host }}"
-        api_user: "{{ pve.api.user }}"
-        api_password: "{{ pve.api.password }}"
-        node: "{{ pve.node }}"
-        vmid: "{{ lxc_template.vmid }}"
-        state: template
-      when: create_ct_res.changed
-    ## End LXC template setup
+    - name: Ensures LXC template is configured
+      ansible.builtin.include_tasks:
+        file: tasks/lxc-template.yaml
 
   handlers:
     - name: Reboot

@@ -1,0 +1,53 @@
+---
+- name: Creates KVM template
+  block:
+    - name: Check if cloudinit image is present
+      ansible.builtin.stat:
+        path: "/tmp/{{ kvm_template_filename }}"
+      register: ci_stat
+
+    - name: Download cloud-init image
+      ansible.builtin.get_url:
+        url: "{{ kvm_template.base_image_uri }}"
+        dest: "/tmp/{{ kvm_template_filename }}"
+        mode: '0644'
+        force: true
+      when: not ci_stat.stat.exists
+
+    - name: Create template from cloud-init image
+      community.general.proxmox_kvm:
+        api_host: "{{ pve.api.host }}"
+        api_user: "{{ pve.api.user }}"
+        api_password: "{{ pve.api.password }}"
+        node: "{{ pve.node }}"
+        name: "{{ kvm_template.name }}"
+        vmid: "{{ kvm_template.vmid }}"
+        tags:
+          - ansible
+          - kvm
+          - template
+        bios: ovmf
+        boot: 'order=scsi0'
+        cores: 2
+        sockets: 1
+        machine: q35
+        memory: 4096
+        agent: 1
+        autostart: true
+        ostype: "{{ kvm_template.os_type }}"
+        efidisk0:
+          storage: "{{ kvm_template.storage }}"
+          format: raw
+          efitype: 4m
+          pre_enrolled_keys: 0 # disable secureboot
+        serial:
+          serial0: 'socket'
+        vga: serial0
+        scsihw: 'virtio-scsi-single'
+        scsi:
+          scsi0: "{{ kvm_template.storage }}:0,iothread=1,discard=on,import-from=/tmp/{{ kvm_template_filename }}"
+          scsi1: '{{ kvm_template.storage }}:cloudinit'
+        net:
+          net0: 'virtio,bridge=vmbr0'
+        template: true
+        timeout: 1000

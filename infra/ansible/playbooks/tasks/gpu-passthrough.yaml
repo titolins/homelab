@@ -1,0 +1,77 @@
+---
+- name: Setup GPU passthrough
+  block:
+    - name: Ensure iommu is passed to grub options
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+        line: GRUB_CMDLINE_LINUX_DEFAULT="quiet iommu=pt"
+        backup: true
+      register: change_grub_res
+
+    - name: Update grub
+      ansible.builtin.shell: update-grub
+      when: change_grub_res.changed
+      notify: Reboot
+
+    - name: Add vfio module
+      community.general.modprobe:
+        name: vfio
+        persistent: present
+      register: vfio_res
+
+    - name: Add vfio_iommu_type1 module
+      community.general.modprobe:
+        name: vfio_iommu_type1
+        persistent: present
+      register: vfio_iommu_type1_res
+
+    - name: Add vfio_pci module
+      community.general.modprobe:
+        name: vfio_pci
+        params: ids=10de:1c03,10de:10f1
+        persistent: present
+      register: vfio_pci_res
+
+    - name: Add nouveau softdep
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/vfio_pci.conf
+        line: "softdep nouveau pre: vfio-pci"
+      register: nouveau_softdep_res
+
+    - name: Add nvidia softdep
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/vfio_pci.conf
+        line: "softdep nvidia pre: vfio-pci"
+      register: nvidia_softdep_res
+
+    - name: Add nvidiafb softdep
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/vfio_pci.conf
+        line: "softdep nvidiafb pre: vfio-pci"
+      register: nvidiafb_softdep_res
+
+    - name: Add nvidia_drm softdep
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/vfio_pci.conf
+        line: "softdep nvidia_drm pre: vfio-pci"
+      register: nvidia_drm_softdep_res
+
+    - name: Add drm softdep
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/vfio_pci.conf
+        line: "softdep drm pre: vfio-pci"
+      register: drm_softdep_res
+
+    - name: Update initramfs
+      ansible.builtin.shell: update-initramfs -u -k all
+      when: >
+       (vfio_res is defined and vfio_res.changed) or
+       (vfio_iommu_type1_res is defined and vfio_iommu_type1_res.changed) or
+       (vfio_pci_res is defined and vfio_pci_res.changed) or
+       (nouveau_softdep_res is defined and nouveau_softdep_res.changed) or
+       (nvidia_softdep_res is defined and nvidia_softdep_res.changed) or
+       (nvidiafb_softdep_res is defined and nvidiafb_softdep_res.changed) or
+       (nvidia_drm_softdep_res is defined and nvidia_drm_softdep_res.changed) or
+       (drm_softdep_res is defined and drm_softdep_res.changed)
+      notify: Reboot

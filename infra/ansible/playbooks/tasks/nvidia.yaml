@@ -1,0 +1,44 @@
+---
+- name: Install nvidia driver
+  block:
+    - name: Ensure kernel headers are installed
+      ansible.builtin.apt:
+        name:
+          - linux-headers-cloud-amd64
+          - gpg
+        state: present
+
+    - name: Ensure non-free source is added
+      ansible.builtin.apt_repository:
+        repo: deb http://deb.debian.org/debian/ bookworm main contrib
+        filename: debian_non_free
+
+    - name: Ensure old nvidia key is deleted
+      ansible.builtin.apt_key:
+        id: 7fa2af80
+        state: absent
+
+    - name: Download new nvidia key
+      ansible.builtin.get_url:
+        url: https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/cuda-keyring_1.1-1_all.deb
+        dest: /tmp/cuda-keyring.deb
+
+    - name: Install nvidia keyring
+      ansible.builtin.apt:
+        deb: /tmp/cuda-keyring.deb
+
+    - name: Ensure packages are updated
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Ensure nvidia driver and encoding/decoding libraries are installed
+      ansible.builtin.apt:
+        name:
+          - cuda
+          - libnvcuvid1
+          - libnvidia-encode1
+        state: present
+
+    - name: Reboot
+      ansible.builtin.reboot:
