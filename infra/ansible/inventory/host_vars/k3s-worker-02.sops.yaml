@@ -15,6 +15,7 @@ mounts:
     - path: ENC[AES256_GCM,data:1acLjtM55bvIXw==,iv:5vJ2FGBlMiqj+OnSmmfc3dl9OyBs3WWVb3TKxzKhKv4=,tag:mEwCtwvwaGGfRKvUrFUMkQ==,type:str]
       src: ENC[AES256_GCM,data:8coKY61egQCV,iv:HsyKFXrRbk+XDa9S9W6BBwqzw/cVMAg0PUs6TGYAzvQ=,tag:ntdp5loHIF9FuUH43Vw/Rw==,type:str]
       fstype: ENC[AES256_GCM,data:+U4wgQ==,iv:+a0Fwx9vHzflGOURqXdO3iYf/+TyijCbkxykumG4wKc=,tag:NrRTKIkZvaLRvT6H52ulgg==,type:str]
+      opts: ENC[AES256_GCM,data:VyDgbSudok4=,iv:X2vXFiUkF9MbObCJhydd5Ek6stp053bs3l3awUsJzj0=,tag:Z+jXlyw/3uyqwSJJe4z1eg==,type:str]
 pve_tags:
     - ENC[AES256_GCM,data:uYCWEtfaBHH8Nw==,iv:TQcifVA9BYdu1PkM7iuD+gygL6EamaACda+Fk4fz+zE=,tag:jXCh2xhEkRq1gZzSLu6qZg==,type:str]
 sops:
@@ -32,8 +33,8 @@ sops:
             SHV4UFN1SUZhWlBsMXZnUHoraXoydjAKBBiAtAEHDLLHsk2YKqedTNC7ub49iCJ1
             S7K1ga1NL+1eGGJXQAxZex2bOQ2pevQpg92EsnvYj+roCq4MYKvTMg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-02T22:55:23Z"
-    mac: ENC[AES256_GCM,data:eakiWaOTZoGu3RDNe5Sx8OzTWVvhMqpZKiyC4WtK2w42Ke0IOddy2+mD7SNb5aE2a2jYNejPlzvQEOg8N6ZO/9ZNaMRke6fkH7RMXWxStM7mKdV6EKoJfKOVxZuL0R33W5m3/tK7hTT6KTbS+011IqcB9ZwnUMoTE+bCg8kaKtY=,iv:fS3tBWHeXNouqXLtMqI30a+TlSLa4dKDYllxlfnI88U=,tag:G1PN0U0oGAYNczcAN9j2Hw==,type:str]
+    lastmodified: "2024-01-04T22:03:27Z"
+    mac: ENC[AES256_GCM,data:XwU+jRfiaV9GzoMYfqgorTCOstmfHfB4FaaXiINOtvmkLlp7+6WRUMbdUrewZxE6U81ij7CyLDJgKHwh8DIxlxYBfP3Xue2Fw9MqjDZcvOSb+HWda/hJeW7ezgvHDD2b2SG6ksuQrff98lDZuhokwP/m3Qd8Y3BOEW+NDjc1UiE=,iv:YWo8f/I+05AHop0w31sImWVwjg3g1ps0yl+X4UFzHfs=,tag:i76TzKqeiO+tb2k9r7L3ag==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

@@ -16,25 +16,6 @@
     #      k3s_control_node: true
     #    when: "'control' in inventory_hostname"
   tasks:
-    - name: Setup nvidia driver
-      ansible.builtin.include_tasks:
-        file: tasks/nvidia.yaml
-      when: has_gpu
-
-    - name: Ensure packages are updated
-      ansible.builtin.apt:
-        upgrade: yes
-        update_cache: yes
-      when: not has_gpu # since nvidia tasks already does that
-
-    - name: Add data mount
-      ansible.posix.mount:
-        path: "{{ item.path }}"
-        src: "{{ item.src }}"
-        fstype: "{{ item.fstype }}"
-        state: mounted
-      loop: "{{ mounts }}"
-
     - name: Install 3s
       ansible.builtin.include_role:
         name: xanmanning.k3s
