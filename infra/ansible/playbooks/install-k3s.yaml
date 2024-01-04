@@ -16,10 +16,13 @@
     #      k3s_control_node: true
     #    when: "'control' in inventory_hostname"
   tasks:
-    - name: Install 3s
+    - name: Install k3s
       ansible.builtin.include_role:
         name: xanmanning.k3s
         public: true
       vars:
         k3s_state: installed
+
+    - name: Kubeconfig
+      ansible.builtin.include_tasks: tasks/kubeconfig.yaml
 

@@ -184,7 +184,6 @@ systemctl restart sshd
 - Improve ansible code
     - It's already a bit better now but something can still be done:
         - k3s role variables in variable files
-        - mount should be idempotent (it's currently failing on second runs)
 - Enable secureboot?
     - See section above
 
