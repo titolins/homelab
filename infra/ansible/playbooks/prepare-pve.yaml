@@ -40,6 +40,7 @@
         src: "{{ item.src }}"
         fstype: "{{ item.fstype }}"
         state: mounted
+        opts: "{{ item.opts }}"
       loop: "{{ mounts }}"
 
     - name: Ensures GPU passthrough is configured
