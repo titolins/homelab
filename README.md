@@ -181,9 +181,6 @@ systemctl restart sshd
 
 - Use packer for template generation?
 - Use terraform for actual VMs/CTs?
-- Improve ansible code
-    - It's already a bit better now but something can still be done:
-        - k3s role variables in variable files
 - Enable secureboot?
     - See section above
 
