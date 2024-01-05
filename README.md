@@ -208,3 +208,4 @@ systemctl restart sshd
 - [PCI/GPU Passthrough on Proxmox VE 8](https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/)
 - [jellyfin nvidia hardware acceleration](https://jellyfin.org/docs/general/administration/hardware-acceleration/nvidia/)
 - [The Ultimate Beginner's Guide to GPU Passthrough](https://www.reddit.com/r/homelab/comments/b5xpua/the_ultimate_beginners_guide_to_gpu_passthrough/)
+- [k3s server fails to start without postgres DB access](https://github.com/k3s-io/k3s/issues/9033)
