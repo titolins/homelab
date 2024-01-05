@@ -1,6 +1,6 @@
 k3s_control_node: ENC[AES256_GCM,data:DYOJb/A=,iv:yybmXZsEhMpIKg3UEZD/lcvwOBa7Lka5HYQn6uOVFRo=,tag:j3EKr0j04k6rUgBb/Fc5nQ==,type:bool]
 k3s_agent:
-    node-ip: ENC[AES256_GCM,data:arp/GrmNxmJK40vTVHE=,iv:fFmpZON0ofhfaxnunPJVBj05RhZj1ClblE4oNd5cNsk=,tag:qy++lzeFzfusMa1ccaN1Qw==,type:str]
+    #ENC[AES256_GCM,data:ccC1fSGiyEY20EVHzMXpQu3i77V4s4c=,iv:tuAXhdnzQdZ8jylx931IsbHj3yPOjJF0PLiUhdfWCTw=,tag:XAP5SAClrc0NaMFFfLXzMQ==,type:comment]
     pause-image: ENC[AES256_GCM,data:Zo9dbCmkevPxONWg2tnbGX2zGwVB/uLa3w==,iv:DYZBGyNrUDQfFfFSmJgWbVVIXJwF/xycmptC25heEi8=,tag:DatLbbA1xFd46dWQbnvGKQ==,type:str]
 sops:
     kms: []
@@ -17,8 +17,8 @@ sops:
             Q250UVRoUWh2eFRhZy9xMzJ2dGdKbnMKsRLxau0zmSq/e8sycM4ZwYhmtUGBySQ8
             nlyMUx4O9aJw0/pL3n+2WZbxSpL50TU9zW+PK6GTJFfxsXvgIz+RXg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-04T22:44:35Z"
-    mac: ENC[AES256_GCM,data:KWcw9OpO/g+P/B3L/bDpGSaBVKXd0m1InksyVbo6TG1YPBUkXuprrj8gzbjwuTJjh8/Z5krJ+6wFZmzaFj529jih77htg6VxmeyyWIujpXUHldCSMtS6qRU+9Jn/jMW+DDPBIiqDnhvtY0FiyYlSUztzJdq6UULRFtxh2ckgqnc=,iv:781RZLwiMK7z1CUuY1yy61uN+Hn6nMkvK9TIU0Oc9CY=,tag:o7c8kR+xAz9+0JNu1A1z4w==,type:str]
+    lastmodified: "2024-01-04T23:17:15Z"
+    mac: ENC[AES256_GCM,data:lvNiLO48uQBoDbQ5vLbYYhO6aX5hGv19JkcAInye34cgakym4Edi/oJ2QNtPBLbT5tuTr+0VDQebcEA3xGH5475w2syLluRyTtQyHmFlJjaFl0abX++QSw2aBuhNe7wjfIUi0uZo8WxyVDROMrvW2l8DyoaZ4mmShWFjFO+xCG0=,iv:iTgpEBFg06ZC7JW+N5GlJHeBjt2rHkdWxLgGGmi2LYY=,tag:SYsKjmVeNGJFVkw90u4qKA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

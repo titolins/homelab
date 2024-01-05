@@ -64,18 +64,7 @@
       ansible.builtin.service:
         name: postgresql
         state: restarted
-      
-    - name: Create DBs
-      community.postgresql.postgresql_db:
-        login_host: "{{ inventory_hostname }}"
-        login_user: "{{ default_user.name }}"
-        login_password: "{{ default_user.password }}"
-        port: "{{ postgres_port }}"
-        name: "{{ item }}"
-        encoding: UTF-8
-        template: template0
-      loop: "{{ create_dbs }}"
-      
+
     - name: Create users
       community.postgresql.postgresql_user:
         login_host: "{{ inventory_hostname }}"
@@ -87,6 +76,18 @@
       environment:
         PGOPTIONS: "-c password_encryption=scram-sha-256"
       loop: "{{ create_users }}"
+      
+    - name: Create DBs
+      community.postgresql.postgresql_db:
+        login_host: "{{ inventory_hostname }}"
+        login_user: "{{ default_user.name }}"
+        login_password: "{{ default_user.password }}"
+        port: "{{ postgres_port }}"
+        name: "{{ item.name }}"
+        owner: "{{ item.owner }}"
+        encoding: UTF-8
+        template: template0
+      loop: "{{ create_dbs }}"
       
     - name: Grant DB privileges
       community.postgresql.postgresql_privs:
