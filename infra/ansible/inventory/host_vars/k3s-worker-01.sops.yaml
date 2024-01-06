@@ -19,6 +19,11 @@ mounts:
       opts: ENC[AES256_GCM,data:yvnCfOaFPC8=,iv:a5O9psBO0IvC8kjWDKzDLp1CBXbUt3zQgBxWeqiAbSk=,tag:WlYwX7kNDjppAilOz6OuGQ==,type:str]
 pve_tags:
     - ENC[AES256_GCM,data:j8ObIELIdz/OZA==,iv:Ng8ugctoGARmpCsXLlBF0Di6rG4dvDR7OGiGnG2lBiA=,tag:USPGoJloEKghZlA0ylHURQ==,type:str]
+#ENC[AES256_GCM,data:Ud8pgXDOLlp2/6NF2sboHso=,iv:Z+2Q1cInXcnfvl4AtGvhOOCajOFi3XshQuo0Rf/BGqM=,tag:hUUlOjM+of4mWjtRsi3jcg==,type:comment]
+k3s_agent:
+    pause-image: ENC[AES256_GCM,data:svgzNInEX9hyZ6GoBbFMB1oil9h/hbiJrA==,iv:FrbNaz2k54OKmSnXM+mGcLbtrSoseYBiH70Jw0tKfqQ=,tag:LuxaOOASFonS5ZJUCpTNEQ==,type:str]
+    node-label:
+        - ENC[AES256_GCM,data:dQf1M5+dR/Zx+jFB,iv:vooq0aEMQ1tnzhYEjzxnDqPVu5mTomMFRq6IQQ7b+q8=,tag:xJ0BCjPrfvs9SqtTo5/uuQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -34,8 +39,8 @@ sops:
             UFdwQWV3K3dkQk1xTG5XUVpnUmxEc1kKySgVNvgeeKzVgUSWrboG0jjxwU77jMtd
             57mUBfcg+DXrVNMh43/1E5DRrk7ffdCR28mm3Q+vePzZBkvFq933kw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-04T22:17:11Z"
-    mac: ENC[AES256_GCM,data:5TNRLj4+wUlKzgkrl/Krw0Zsk98Ueuo3r2s4x2a7DVu0cubgrfAHwjOsEljhDtbBCbTTGWDGSLZ2aZcPg1RyvSmOmklbRurdHQ0qM7PzGW+8jIQgvP+jgMeuJOqF1Wz2pZLOaGTmsmMjGNYOaIaar8LiyUGoCs2vQrAuG0q3P24=,iv:/c/hm8n1IlymNywbi/CLESxwgITcsCz5VXcAE69L9Jk=,tag:/BZq0N5DCUiGiI1MV+XlIQ==,type:str]
+    lastmodified: "2024-01-05T17:16:35Z"
+    mac: ENC[AES256_GCM,data:v/4J939mspfd0B/BEi6NjGqerN/pqnAIRpHteR7R10JBU92W1xpe0WLy4ncR2y3t8Dj5SG9BramioasGNKcRXB20nr3wVmSNf21JzvIxLfWblC2zox5xYfuzLiT5/cjLEkzge3gzM4XY/j5H47wvlAK1H+ZKMVyoWNZyCwrwUxg=,iv:irCO4ZiVfc8n/NbGiOFBhtCmJAxgDtFk6OEMAFJuVM0=,tag:6kyAPUSj8mqEV2Fr+6xyIA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1
