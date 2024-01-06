@@ -1,32 +1,55 @@
 ---
 - name: Setup nodes and install k3s
-  hosts: k3s_nodes
-  become: true
-  gather_facts: true
+  hosts: localhost
+  gather_facts: false
   any_errors_fatal: true
   tasks:
-    - name: Setup nvidia driver
-      ansible.builtin.include_tasks:
-        file: tasks/nvidia.yaml
-      when: has_gpu
+    - name: Clone cilium-cli
+      ansible.builtin.git:
+        dest: "{{ cilium_cli_clone_path }}"
+        repo: git@github.com:cilium/cilium-cli.git
+        key_file: "{{ ssh_key_path }}"
+      register: clone_res
 
-    - name: Ensure packages are updated
-      ansible.builtin.apt:
-        upgrade: yes
-        update_cache: yes
-      when: not has_gpu # since nvidia tasks already does that
+    - when: clone_res.changed
+      block:
+      - name: Install cilium-cli
+        environment:
+          BINDIR: "{{ bin_install_path }}"
+        community.general.make:
+          chdir: "{{ cilium_repo_path }}"
+          target: install
 
-    - name: Add data mount
-      ansible.posix.mount:
-        path: "{{ item.path }}"
-        src: "{{ item.src }}"
-        fstype: "{{ item.fstype }}"
-        opts: "{{ item.opts }}"
-        state: mounted
-      loop: "{{ mounts }}"
+      - name: Install cilium
+        ansible.builtin.shell:
+          cmd: cilium install
 
-  handlers:
-    - name: Reboot
-      ansible.builtin.reboot:
-        msg: Rebooting nodes
-        reboot_timeout: 3600
+    - name: Check if flux is already installed
+      ansible.builtin.stat:
+        path: "{{ bin_install_path }}/flux"
+      register: flux_bin
+
+    - when: not flux_bin.stat.exists
+      block:
+      - name: Download flux-cli installer
+        ansible.builtin.get_url:
+          url: https://fluxcd.io/install.sh
+          dest: /tmp/install-flux.sh
+          mode: 0755
+
+      # doesn't get hackier than this lol
+      - name: Ensure BIN_DIR gets applied
+        ansible.builtin.lineinfile:
+          path: /tmp/install-flux.sh
+          regexp: '^BIN_DIR='
+          line: "BIN_DIR={{ bin_install_path }}"
+
+      - name: Install flux-cli
+        #environment: # for some reason doesn't work
+        #  BIN_DIR: "{{ bin_install_path }}"
+        ansible.builtin.shell:
+          cmd: /tmp/install-flux.sh
+
+      - name: Install flux
+        ansible.builtin.shell:
+          cmd: flux install

@@ -1,0 +1,32 @@
+---
+- name: Setup nodes and install k3s
+  hosts: k3s_nodes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  tasks:
+    - name: Setup nvidia driver
+      ansible.builtin.include_tasks:
+        file: tasks/nvidia.yaml
+      when: has_gpu
+
+    - name: Ensure packages are updated
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+      when: not has_gpu # since nvidia tasks already does that
+
+    - name: Add data mount
+      ansible.posix.mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        fstype: "{{ item.fstype }}"
+        opts: "{{ item.opts }}"
+        state: mounted
+      loop: "{{ mounts }}"
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: Rebooting nodes
+        reboot_timeout: 3600

@@ -1,0 +1,23 @@
+cilium_cli_clone_path: ENC[AES256_GCM,data:RG6iQTAMYuMQvPLbpqvv3MHmdjrBOrRcuCciE/yDCWnBH3mesk1gggkvPX+FjmyU,iv:1zl64CaLNz+4obDpl/cVTvCTMzHSMIDRTNwXpVDWFWA=,tag:DmLAf6ZfnHSbZKr6PqpKSg==,type:str]
+ssh_key_path: ENC[AES256_GCM,data:hl/qTRU8nlc/tl9uV9y8ByXCe5WjNtISu6946ttbc5eBpSS3SEnctfDzPQ==,iv:ocCXH7hJpzjdc+6m4oPcU47OOspvtWnPSttGqXhYZz4=,tag:0GN7pdgCbqvihjH5fVs6mg==,type:str]
+bin_install_path: ENC[AES256_GCM,data:hzRVL1AZAbhwEj4TggAsdaR+v6SMvgumXhQDTPslEruqE3a14Rk=,iv:YUAMzjlHG5aNekeKZVNNF7hNpElFy6eed+47vZ0MTxY=,tag:N8fdKAeCAHuCNkr70Kelww==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1wdhud9akfa4ua4urh3q6epn959wnd6yu0cmva7kdukx0kmvkxygst9ycau
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA2ZVcxOEhBMXFkSW43d0VJ
+            czlpOUxNRklEVVFySE40cEdiRW05bkxuWEdZClpxUUkwb3o1ZE02SGtNbEdMZjZK
+            dDMvOHUyaDVvK1JTVEF5ZTY1dFNxTEEKLS0tIG9aRFFFL2JNOVp4NE1iODg0c2Vq
+            emg1eGpiYm9pbjRFYWR5UHEveDBaSW8KWiGZu8zzqRuJ91IfYHkhGSGtG08A9Gr7
+            al++nTl+yZFCU/QsgkaQQNVHzAytL/5EjPgF3/y2MiYbFP7AIBzJmw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-01-06T16:21:43Z"
+    mac: ENC[AES256_GCM,data:bEf1GUSOkha5/1hdCdyQ8SeOImF25m1RiYsYzFIUPwZw/I0ifnvLifUwvlMLaKFO3yEbtiJ2j/e+HHj0mXxV1U0p3+7DIMDBKDesHobWGWdbYn4TQ3EQ1/tF7T87BHL8fBxF3Zz5wYrUNaSNa3O65tXtmcdzvfahOdKmkNCngbg=,iv:21moJbc4cSCTT9CLRmC2V4o6RvRPvXT/b9Re3HOfb8E=,tag:a9Se3vFbe6kQogcbWTn4LA==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.8.1

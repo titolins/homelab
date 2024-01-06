@@ -5,7 +5,6 @@ k3s_server:
     cluster-cidr: ENC[AES256_GCM,data:5UFW0pusmgqksMNl,iv:ChF4RdbhQwOReLISwhYnwGVHKhISawEp7HNwF+45toE=,tag:tIVInxs2v53qoHK0EUhIYQ==,type:str]
     service-cidr: ENC[AES256_GCM,data:9nX7kOnBfqGeQvj0,iv:3yzbB9dOnfvXWAgSAv5JLwcEDIESIyoQwbafe08Co2c=,tag:Gf1/+PhtoeR4W41FqAIOKA==,type:str]
     docker: ENC[AES256_GCM,data:YJGZ8BQ=,iv:q4sMQEX+C482LQi3jV6XTC8nffROtBmkcIN5S9IURtA=,tag:edw4kaxyXXfjad5u4S/MiA==,type:bool]
-    #ENC[AES256_GCM,data:l9DOLUV/oSEGNwx0WzmNDa/yebwyNU1AmFfF,iv:UGb4txdgpthHbrbjOKxQ6V0HLjEPZ7iEi8saf7SMTFc=,tag:ZicG3QGzT4Vwm/xWXkZIkw==,type:comment]
     flannel-backend: ENC[AES256_GCM,data:pjsqaA==,iv:c1zVwPo1FxfAlpw3Rgu4Ku2v6dGY6CTfww3eqMy5WNE=,tag:1OxH6JEtixFiUollhz9Cqg==,type:str]
     disable:
         - ENC[AES256_GCM,data:C7n2PQVKrfqa3+qr54p/QzSP07rGH1XtN5/lNG/eEl/zKnaC2rllPidSRF3H+GyktznfMgywMFghMRLM1HHf5gTL4w==,iv:bwJuVHKpBYjnMzkm6ijg6N1HvnIdJPYxqKWWooOCuQo=,tag:TYVOwB4JZyxi2/VfOz5oPw==,type:comment]
@@ -42,8 +41,8 @@ sops:
             aUVNcDdyckVXQUhlc0lUaVRIdGRoZlUKT73W3hpjnWBjAi+7kuwtueLyzF3AmIfz
             T9aQXzTcsSdKI6shyK6mj+QGgqT9Lcfvke3Wbs++wCUggkOuqoo2rg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-06T13:12:11Z"
-    mac: ENC[AES256_GCM,data:6cvMgxcKOMApy3Fk1gL7hQ8POoXZku67CtfN73XiKvggcZ1Zy9nGl20iAVgTO4nTPS2z4hu4v+onEILCsNXNgfiPKOuAcid3vh61SywElPqqaBScOxncui55gWL+kvkLlxNRVfLKNqRYctFr1G7faypRnspfjcjCvUUIgMBL4tw=,iv:LLmRo/RHzOQ/Vbnz/npRuhKfe3LJilHTgHCjqXO4o2Y=,tag:DD8SRbDBLtMisxmhdZykIA==,type:str]
+    lastmodified: "2024-01-06T15:38:33Z"
+    mac: ENC[AES256_GCM,data:AWa8dgNLBhwsfYzb1BkzobYwLOI3NyMxZrt7ypNzV06EtPvEzfMdVO1FCxUbYZyEvOCivN4hD5yGrEl6QQcMmVa30nzF0/CcCD0pdmz++y01x1FUQAUeA7RDereoe+0ZPYR7Dpmu4ANFeYh92U2SolXvXOvjnM3ke1Kttg4HYLo=,iv:jSSi0Vsq3H6Lx0T/AciwIGdPzSW1C6RsCIlf/vfHK4o=,tag:99WXKsaaIgMJXoFLnh36NA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1

@@ -71,8 +71,9 @@ Things to be added on top of that:
     - `task an:create-vms` will create and perform basic configuration of the VMs
     - `task an:create-cts` will create and perform basic configuration of the containers
     - `task an:prep-pg` will install and perform basic configuration of postgres in the created container
-    - `task an:prep-k3s` will prepare the k3s nodes by - e.g. installing GPU drivers and updating packages
-    - `task an:inst-k3s` will install and perform basic configuration of k3s in the created VMS
+    - `task an:prep-nodes` will prepare the k3s nodes by - e.g. installing GPU drivers and updating packages
+    - `task an:inst-k3s` will perform a barebones installation of k3s
+    - `task an:prep-k3s` will perform basic configuration of k3s (e.g. install cilium)
     - `task an:uninst-k3s` will uninstall k3s (used for easily reprovisioning the cluster to test different configuration)
 
 Note: To make ansible bootstrapping simpler, it's recommended to add the following to `.ssh/config` to the created nodes

@@ -1,5 +1,5 @@
 ---
-- name: Setup nodes and install k3s
+- name: Install k3s
   hosts: k3s_nodes
   become: true
   gather_facts: true
