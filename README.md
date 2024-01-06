@@ -179,6 +179,8 @@ systemctl restart sshd
 - Enable secureboot?
     - See section above
 
+- Use proper roles for installing cilium and flux
+
 ## Helpful articles
 - [Considerations for a k3s node on proxmox](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)
 - [Creating a pve debian template](https://www.aidenwebb.com/posts/create-a-debian-cloud-init-template-on-proxmox/)
