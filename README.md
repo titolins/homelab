@@ -169,6 +169,11 @@ systemctl restart sshd
     - We've added some relevant docs on that in the helpful articles section below
 
 ## TODO
+- Bootstrap flux
+- Add traefik
+- Add cilium
+- Add coredns
+
 - Proper hardening
     - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
     - [ansible role](https://github.com/konstruktoid/ansible-role-hardening)
