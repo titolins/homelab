@@ -52,4 +52,4 @@
 
       - name: Install flux
         ansible.builtin.shell:
-          cmd: flux install
+          cmd: flux bootstrap github --owner=ttlins --repository=homelab --branch=main --path=kubernetes/bootstrap/
