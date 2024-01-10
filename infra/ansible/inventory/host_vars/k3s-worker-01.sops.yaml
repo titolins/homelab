@@ -23,7 +23,8 @@ pve_tags:
 k3s_agent:
     pause-image: ENC[AES256_GCM,data:svgzNInEX9hyZ6GoBbFMB1oil9h/hbiJrA==,iv:FrbNaz2k54OKmSnXM+mGcLbtrSoseYBiH70Jw0tKfqQ=,tag:LuxaOOASFonS5ZJUCpTNEQ==,type:str]
     node-label:
-        - ENC[AES256_GCM,data:dQf1M5+dR/Zx+jFB,iv:vooq0aEMQ1tnzhYEjzxnDqPVu5mTomMFRq6IQQ7b+q8=,tag:xJ0BCjPrfvs9SqtTo5/uuQ==,type:str]
+        - ENC[AES256_GCM,data:Jugz2xCfBdjuzCYd,iv:oKLVMt3z9yHFXbw69OQUE5CU5A3D9MXKcoJyqhKHG0I=,tag:VAVN5apdcDr9JanzCzOROQ==,type:str]
+        - ENC[AES256_GCM,data:F2APCKLhDCuKI5A+,iv:pgzk6Dh2rHxFpmvjCm9IM72uqDdSaBfTlb8nbuQtkkU=,tag:GLZ4pqtH0qO6GqX57w7ZHA==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -39,8 +40,8 @@ sops:
             UFdwQWV3K3dkQk1xTG5XUVpnUmxEc1kKySgVNvgeeKzVgUSWrboG0jjxwU77jMtd
             57mUBfcg+DXrVNMh43/1E5DRrk7ffdCR28mm3Q+vePzZBkvFq933kw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-01-05T17:16:35Z"
-    mac: ENC[AES256_GCM,data:v/4J939mspfd0B/BEi6NjGqerN/pqnAIRpHteR7R10JBU92W1xpe0WLy4ncR2y3t8Dj5SG9BramioasGNKcRXB20nr3wVmSNf21JzvIxLfWblC2zox5xYfuzLiT5/cjLEkzge3gzM4XY/j5H47wvlAK1H+ZKMVyoWNZyCwrwUxg=,iv:irCO4ZiVfc8n/NbGiOFBhtCmJAxgDtFk6OEMAFJuVM0=,tag:6kyAPUSj8mqEV2Fr+6xyIA==,type:str]
+    lastmodified: "2024-01-10T01:18:11Z"
+    mac: ENC[AES256_GCM,data:IP1Y1vkH1Ccs8tc+CDIYeJo0zr9I6agxUjCmS8CG7GZvIFTIaoxpK+bf73gydCI+hjN+EUS3RdnzFVvNugyfGchulM6f82l45ZaxQk5AFcBzeEnF3qNqok6KTzxxnRh4zCnvEg0hcOeMMI66g6wwzYympGvEHpd5jwyQD1+7SPw=,iv:92PTOG7l6yKuJOj/fnd/gdWej+BCDdtmnsTr1rG1qmI=,tag:AGAEzm/RRmD9G0cxqVFwdQ==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.8.1
