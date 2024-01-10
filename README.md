@@ -162,7 +162,7 @@ systemctl restart sshd
 - Now we should be all set to run ansible :)
 
 ## Manual steps (k3s)
-- Install and configure cilium
+- Install and configure cilium to use BGP
 ```bash
 cilium install
 cilium status --wait # wait for cilium to be ready
@@ -174,13 +174,55 @@ k logs -n kube-system cilium-operator-6798dd5bb9-jn87t | grep CRD # check new po
 k api-resources | grep -i ciliumBGP # check api-resources to see it there
 k apply -f kubernetes/kube-system/cilium-bgp-policy.yaml # apply bgp policy to expose services
 ## label all worker nodes with bgp-policy=a
-k label nodes k3s-worker-01 bgp-policy=a
-k label nodes k3s-worker-02 bgp-policy=a
+#k label nodes k3s-worker-01 bgp-policy=a ## added on provision by ansible role
+#k label nodes k3s-worker-02 bgp-policy=a
 k create -f kubernetes/kube-system/cilium-ippool.yaml # create cilium ippool for load balancers
 cilium bgp peers # check bgp peers - should have session as active
 ## Once router configuration is done
 cilium bgp peers # check bgp peers - should have session as established
 ```
+
+- Enable hubble on cilium
+```bash
+cilium hubble enable
+cilium status # check it was enabled successfully
+```
+
+- Install hubble cli
+```bash
+HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+HUBBLE_ARCH=amd64
+if [ "$(uname -m)" = "aarch64" ]; then HUBBLE_ARCH=arm64; fi
+curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+sha256sum --check hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
+sudo tar xzvfC hubble-linux-${HUBBLE_ARCH}.tar.gz /usr/local/bin
+rm hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+```
+
+- Validate Hubble API Access
+```bash
+cilium hubble port-forward&
+hubble status
+hubble observe -f # for live check
+```
+
+- Bootstrap flux
+```bash
+flux bootstrap github \
+    --branch=main \
+    --owner=ttlins \
+    --repository=homelab \
+    --path=kubernetes/home \
+    --components-extra=image-reflector-controller,image-automation-controller  \
+    --personal
+```
+
+- Accessing traefik's dashboard
+```bash
+k -n kube-system port-forward $(k get pods -n kube-system -l "app.kubernetes.io/name=traefik" --output=name) 9000:9000
+```
+
+- Go to http://127.0.0.1:9000/dashboard/
 
 ## Nvidia drivers and secure boot
 - Secure boot was disabled on the vms template by setting the `efidisk.pre_enrolled_keys` param to 0
@@ -190,11 +232,11 @@ cilium bgp peers # check bgp peers - should have session as established
     - We've added some relevant docs on that in the helpful articles section below
 
 ## TODO
-- Add cilium
-    - cilium should come first
-- Bootstrap flux
-- Add traefik
+- Check how to install flux extra components after bootstrap
+    - image-reflector-controller
+    - image-automation-controller
 - Add coredns
+
 
 - Proper hardening
     - [CIS Debian Hardening](https://github.com/ovh/debian-cis)
@@ -243,3 +285,6 @@ cilium bgp peers # check bgp peers - should have session as established
 - [k3s server fails to start without postgres DB access](https://github.com/k3s-io/k3s/issues/9033)
 - [kubernetes loadbalance service using cilium bgp control plane](https://medium.com/@valentin.hristev/kubernetes-loadbalance-service-using-cilium-bgp-control-plane-8a5ad416546a)
 - [using bgp to integrate cilium with opnsense](https://dickingwithdocker.com/posts/using-bgp-to-integrate-cilium-with-opnsense/)
+- [traefik helm chart examples](https://github.com/traefik/traefik-helm-chart/blob/master/EXAMPLES.md)
+- [deploy traefik proxy using flux and gitops](https://traefik.io/blog/deploy-traefik-proxy-using-flux-and-gitops/)
+- [Setting up Hubble observability](https://docs.cilium.io/en/stable/gettingstarted/hubble_setup/)
