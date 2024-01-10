@@ -161,6 +161,27 @@ systemctl restart sshd
 
 - Now we should be all set to run ansible :)
 
+## Manual steps (k3s)
+- Install and configure cilium
+```bash
+cilium install
+cilium status --wait # wait for cilium to be ready
+cilium config view | grep -i bgp # check if bgp is enabled
+cilium config set enable-bgp-control-plane true
+cilium config view | grep -i bgp # now it should be enabled
+k delete pod -n kube-system cilium-operator-6798dd5bb9-vzqcj # cycle pod to refresh configuration and create missing resources
+k logs -n kube-system cilium-operator-6798dd5bb9-jn87t | grep CRD # check new pod logs to make sure new CRD was created
+k api-resources | grep -i ciliumBGP # check api-resources to see it there
+k apply -f kubernetes/kube-system/cilium-bgp-policy.yaml # apply bgp policy to expose services
+## label all worker nodes with bgp-policy=a
+k label nodes k3s-worker-01 bgp-policy=a
+k label nodes k3s-worker-02 bgp-policy=a
+k create -f kubernetes/kube-system/cilium-ippool.yaml # create cilium ippool for load balancers
+cilium bgp peers # check bgp peers - should have session as active
+## Once router configuration is done
+cilium bgp peers # check bgp peers - should have session as established
+```
+
 ## Nvidia drivers and secure boot
 - Secure boot was disabled on the vms template by setting the `efidisk.pre_enrolled_keys` param to 0
 - The reason for that is that installing the nvidia drivers with secure is not possible to be fully automated
@@ -169,9 +190,10 @@ systemctl restart sshd
     - We've added some relevant docs on that in the helpful articles section below
 
 ## TODO
+- Add cilium
+    - cilium should come first
 - Bootstrap flux
 - Add traefik
-- Add cilium
 - Add coredns
 
 - Proper hardening
@@ -185,6 +207,8 @@ systemctl restart sshd
     - See section above
 
 - Use proper roles for installing cilium and flux
+    - not sure if we want to automate that with ansible
+    - maybe not
 
 ## Helpful articles
 - [Considerations for a k3s node on proxmox](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)
@@ -217,3 +241,5 @@ systemctl restart sshd
 - [jellyfin nvidia hardware acceleration](https://jellyfin.org/docs/general/administration/hardware-acceleration/nvidia/)
 - [The Ultimate Beginner's Guide to GPU Passthrough](https://www.reddit.com/r/homelab/comments/b5xpua/the_ultimate_beginners_guide_to_gpu_passthrough/)
 - [k3s server fails to start without postgres DB access](https://github.com/k3s-io/k3s/issues/9033)
+- [kubernetes loadbalance service using cilium bgp control plane](https://medium.com/@valentin.hristev/kubernetes-loadbalance-service-using-cilium-bgp-control-plane-8a5ad416546a)
+- [using bgp to integrate cilium with opnsense](https://dickingwithdocker.com/posts/using-bgp-to-integrate-cilium-with-opnsense/)
