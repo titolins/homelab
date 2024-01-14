@@ -14,7 +14,6 @@ spec:
         name: coredns
         namespace: kube-system
       version: 1.29.0
-      serviceAccountName: coredns
   interval: 1m0s
   maxHistory: 2
   install:
@@ -33,6 +32,7 @@ spec:
       clusterIP: "10.43.0.10"
     serviceAccount:
       create: true
+      name: coredns
     deployment:
       annotations:
         reloader.stakater.com/auto: "true"
