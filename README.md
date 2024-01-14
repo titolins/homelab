@@ -170,7 +170,7 @@ systemctl restart sshd
 helm repo add traefik https://traefik.github.io/charts
 helm install traefik traefik/traefik --namespace kube-system --create-namespace
 helm repo add coredns https://coredns.github.io/helm
-helm --namespace=kube-system install coredns coredns/coredns --set service.clusterIP=10.43.0.10
+helm --namespace=kube-system install coredns coredns/coredns --set service.clusterIP=10.43.0.10 --set serviceAccount.create=true --set serviceAccount.name=coredns
 ```
 
 - Install and configure cilium to use BGP
