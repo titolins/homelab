@@ -26,11 +26,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    fullnameOverride: coredns
     replicaCount: 1
-    k8sAppLabelOverride: kube-dns
     service:
-      name: kube-dns
+      name: coredns
       clusterIP: "10.43.0.10"
     serviceAccount:
       create: true
