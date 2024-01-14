@@ -162,6 +162,17 @@ systemctl restart sshd
 - Now we should be all set to run ansible :)
 
 ## Manual steps (k3s)
+- Install initial coredns and traefik helm-releases
+    - Required so flux can do initial sync
+    - Since installing using helm, should be easy to switch to managed later
+
+```bash
+helm repo add traefik https://traefik.github.io/charts
+helm install traefik traefik/traefik --namespace kube-system --create-namespace
+helm repo add coredns https://coredns.github.io/helm
+helm --namespace=kube-system install coredns coredns/coredns --set service.clusterIP=10.43.0.10
+```
+
 - Install and configure cilium to use BGP
 ```bash
 cilium install
