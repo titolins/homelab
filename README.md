@@ -75,6 +75,8 @@ Things to be added on top of that:
     - `task an:inst-k3s` will perform a barebones installation of k3s
     - `task an:prep-k3s` will perform basic configuration of k3s (i.e. install cilium and bootstrap flux)
     - `task an:uninst-k3s` will uninstall k3s (used for easily reprovisioning the cluster to test different configuration)
+    - `task an:start-k3s` ensures that k3s is running and the cluster is up
+    - `task an:stop-k3s` ensures that k3s is stopped
 
 Note: To make ansible bootstrapping simpler, it's recommended to add the following to `.ssh/config` to the created nodes
 ```

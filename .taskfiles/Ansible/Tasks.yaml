@@ -59,6 +59,18 @@ tasks:
     cmds:
       - ansible-playbook -i inventory/homelab.yaml playbooks/uninstall-k3s.yaml
 
+  start-k3s:
+    desc: Ensures k3s is running
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - ansible-playbook -i inventory/homelab.yaml playbooks/start-k3s.yaml
+
+  stop-k3s:
+    desc: Ensures k3s is stopped
+    dir: '{{.ANSIBLE_DIR}}'
+    cmds:
+      - ansible-playbook -i inventory/homelab.yaml playbooks/stop-k3s.yaml
+
   prep-k3s:
     desc: Prepare k3s cluster
     dir: '{{.ANSIBLE_DIR}}'

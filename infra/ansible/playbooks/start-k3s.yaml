@@ -1,0 +1,14 @@
+---
+- name: Start k3s
+  hosts: k3s_nodes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  tasks:
+    - name: Install k3s
+      ansible.builtin.include_role:
+        name: xanmanning.k3s
+        public: true
+      vars:
+        k3s_state: started
+
